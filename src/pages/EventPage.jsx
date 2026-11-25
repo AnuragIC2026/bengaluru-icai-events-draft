@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, CalendarDays, Clock, MapPin, Users, Percent, Minus, Plus, Lock, Phone, Mail, Award, Mic, Info, CircleCheck, Check, ChevronDown, Expand } from 'lucide-react'
-import { getEvent, getSettings, createBooking, addInterest } from '../lib/store.js'
+import { getEvent, getSettings, createBooking, addInterest } from '../lib/data.js'
 import { CATEGORY_LABELS, CATEGORY_PLURAL, enabledCategories, calcPrice, gstAppliesTo, describeDiscount } from '../lib/pricing.js'
 import { fmtDateRange, fmtTimeRange, rupees, fmtDate } from '../lib/format.js'
 import { rules, STATES } from '../lib/validate.js'
@@ -195,14 +195,26 @@ export default function EventPage() {
         gender: p.gender,
         idNumber: category === 'member' ? p.memberId.trim() : category === 'student' ? p.studentId.trim().toUpperCase() : '',
       }))
-      const booking = await createBooking({
+      const { booking, payment } = await createBooking({
         eventId: event.id,
         category,
         participants: clean,
         contact: { ...contact, gstin: gstAppliesTo(category) ? contact.gstin.trim().toUpperCase() : '', email: contact.email.trim().toLowerCase() },
       })
-      nav(booking.status === 'pending' ? `/pay/${booking.id}` : `/booking/${booking.id}`)
+      const k = encodeURIComponent(booking.accessKey || '')
+      if (payment?.mode === 'eazypay' && payment.url) {
+        window.location.assign(payment.url)
+        return
+      }
+      nav(booking.status === 'pending' ? `/pay/${booking.id}?k=${k}` : `/booking/${booking.id}?k=${k}`)
     } catch (x) {
+      if (x.fields) {
+        const mapped = {}
+        for (const [key, msg] of Object.entries(x.fields)) mapped[key.replace('.idNumber', category === 'student' ? '.studentId' : '.memberId')] = msg
+        setErrors(mapped)
+        const bad = [...new Set(Object.keys(mapped).filter((key) => key.startsWith('p')).map((key) => Number(key.slice(1).split('.')[0])))]
+        if (bad.length) setOpenP(bad)
+      }
       setFormError(x.message)
       setBusy(false)
     }

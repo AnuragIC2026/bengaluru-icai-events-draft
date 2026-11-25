@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { LogIn } from 'lucide-react'
 import logo from '../assets/icai-logo.png'
-import { login, currentUser, DEMO_USERS } from '../lib/store.js'
+import { login, currentUser, DEMO_USERS } from '../lib/data.js'
 import { Field, TextInput } from '../components/ui.jsx'
 
 export default function Login() {
@@ -15,9 +15,18 @@ export default function Login() {
     document.title = 'Admin login | Bengaluru ICAI events'
     if (currentUser()) nav('/admin', { replace: true })
   }, [nav])
-  const submit = (e) => {
+  const [busy, setBusy] = useState(false)
+  const submit = async (e) => {
     e.preventDefault()
-    const u = login(email, pw)
+    setBusy(true)
+    let u = null
+    try {
+      u = await login(email, pw)
+    } catch (x) {
+      setBusy(false)
+      return setErr(x.message)
+    }
+    setBusy(false)
     if (!u) return setErr('Email or password is wrong.')
     const from = loc.state?.from
     nav(u.role === 'accounts' && from?.startsWith('/admin/events') ? '/admin/registrations' : from || '/admin', { replace: true })
@@ -49,8 +58,9 @@ export default function Login() {
           </div>
         )}
         <button className="btn btn-primary btn-lg btn-block" style={{ marginTop: 18 }}>
-          <LogIn size={18} /> Log in
+          <LogIn size={18} /> {busy ? 'Logging in...' : 'Log in'}
         </button>
+        {DEMO_USERS.length > 0 && (
         <div className="demo-creds">
           <b>Test logins</b>
           {DEMO_USERS.map((u) => (
@@ -62,6 +72,7 @@ export default function Login() {
             </div>
           ))}
         </div>
+        )}
         <p style={{ marginTop: 16, fontSize: 14.5 }}>
           <Link to="/">Back to the public portal</Link>
         </p>

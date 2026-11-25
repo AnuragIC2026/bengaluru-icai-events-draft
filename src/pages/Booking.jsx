@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { CircleCheck, CircleX, Printer, CalendarPlus, ArrowLeft, RotateCcw, Clock } from 'lucide-react'
-import { getBooking, getEvent } from '../lib/store.js'
+import { getBooking, getEvent, getSettings, IS_DEMO } from '../lib/data.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
 import { fmtDateRange, fmtTimeRange, rupees, fmtDateTime } from '../lib/format.js'
 import { isStudentEvent } from '../components/ui.jsx'
@@ -129,15 +129,21 @@ export function BookingPass({ b, e }) {
 export default function Booking() {
   const { id } = useParams()
   const nav = useNavigate()
+  const [sp] = useSearchParams()
+  const key = sp.get('k') || ''
+  const [emailOn, setEmailOn] = useState(false)
+  useEffect(() => {
+    if (!IS_DEMO) getSettings().then((s) => setEmailOn(!!s.emailEnabled)).catch(() => {})
+  }, [])
   const [b, setB] = useState(undefined)
   const [e, setE] = useState(null)
   useEffect(() => {
     document.title = 'Your booking | Bengaluru ICAI'
-    getBooking(id).then((x) => {
+    getBooking(id, key).then((x) => {
       setB(x)
       if (x) getEvent(x.eventId).then(setE)
     })
-  }, [id])
+  }, [id, key])
 
   if (b === undefined) return <div className="narrow">Loading...</div>
   if (!b)
@@ -167,7 +173,12 @@ export default function Booking() {
           {paid ? (
             <>
               <b>You are registered.</b>
-              {b.price.total > 0 ? 'Payment received. ' : ''}On the live portal, a receipt goes to {b.contact.email} and each participant gets a confirmation.
+              {b.price.total > 0 ? 'Payment received. ' : ''}
+              {IS_DEMO
+                ? `On the live portal, a receipt goes to ${b.contact.email} and each participant gets a confirmation.`
+                : emailOn
+                  ? `A receipt has been emailed to ${b.contact.email}, and each participant gets a confirmation.`
+                  : 'Keep your booking number for reference.'}
             </>
           ) : failed ? (
             <>
@@ -197,7 +208,7 @@ export default function Booking() {
           </>
         )}
         {b.status === 'pending' && (
-          <button className="btn btn-primary" onClick={() => nav(`/pay/${b.id}`)}>
+          <button className="btn btn-primary" onClick={() => nav(`/pay/${b.id}?k=${encodeURIComponent(key)}`)}>
             Complete payment
           </button>
         )}

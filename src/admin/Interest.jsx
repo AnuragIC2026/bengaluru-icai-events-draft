@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { FileSpreadsheet } from 'lucide-react'
-import { listInterest } from '../lib/store.js'
+import { listInterest } from '../lib/data.js'
 import { fmtDateTime } from '../lib/format.js'
 import { exportInterest } from '../lib/excel.js'
 import { RequireRole } from './AdminLayout.jsx'

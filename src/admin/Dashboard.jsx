@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CalendarDays, Receipt, Users, IndianRupee } from 'lucide-react'
-import { listEvents, listBookings } from '../lib/store.js'
+import { listEvents, listBookings } from '../lib/data.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
 import { fmtDateShort, rupees, fmtDateTime } from '../lib/format.js'
 import { useAdmin } from './AdminLayout.jsx'

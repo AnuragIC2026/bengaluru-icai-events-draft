@@ -1,16 +1,25 @@
 import { Link, Outlet } from 'react-router-dom'
 import { Search, ExternalLink, FlaskConical } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { IS_DEMO, getSettings } from '../lib/data.js'
 import logo from '../assets/icai-logo.png'
 import { Modal } from './ui.jsx'
 import { POLICIES } from '../data/policies.js'
 import Skyline from './Skyline.jsx'
 
 export function DemoBar() {
+  const [text, setText] = useState(IS_DEMO ? 'Test version. Payment is simulated.' : '')
+  useEffect(() => {
+    if (IS_DEMO) return
+    getSettings()
+      .then((s) => setText(s.paymentMode === 'test' ? 'Test mode. Payment is simulated.' : ''))
+      .catch(() => {})
+  }, [])
+  if (!text) return null
   return (
     <div className="demo-bar no-print">
       <FlaskConical size={15} />
-      <span>Test version. Payment is simulated.</span>
+      <span>{text}</span>
     </div>
   )
 }

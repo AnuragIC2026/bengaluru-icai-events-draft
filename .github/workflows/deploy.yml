@@ -23,7 +23,11 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      # Leave the VITE_API_URL repository variable empty for the browser test version.
+      # Set it (Settings, Secrets and variables, Actions, Variables) to the API address to use the real backend.
       - run: npm run build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages

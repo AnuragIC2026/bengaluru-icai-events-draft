@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Save, RotateCcw } from 'lucide-react'
-import { getSettings, saveSettings, resetDemo } from '../lib/store.js'
+import { getSettings, saveSettings, resetDemo, IS_DEMO } from '../lib/data.js'
 import { RequireRole } from './AdminLayout.jsx'
 import { Field, TextInput, Modal, useToast } from '../components/ui.jsx'
 
@@ -30,8 +30,12 @@ function Inner() {
     if (!/^[A-Z]{2,10}$/.test(s.bookingPrefix)) e.bookingPrefix = '2 to 10 capital letters'
     setErr(e)
     if (Object.keys(e).length) return
-    await saveSettings({ ...s, gstRate: g })
-    toast('Settings saved')
+    try {
+      await saveSettings({ ...s, gstRate: g })
+      toast('Settings saved')
+    } catch (x) {
+      setErr({ gstRate: x.message })
+    }
   }
   const reset = async () => {
     await resetDemo()
@@ -87,6 +91,7 @@ function Inner() {
           </button>
         </section>
       </div>
+      {IS_DEMO && (
       <div className="panel" style={{ maxWidth: 820, marginTop: 18 }}>
         <section className="ed-section">
           <h2>Test data</h2>
@@ -96,6 +101,7 @@ function Inner() {
           </button>
         </section>
       </div>
+      )}
       {confirm && (
         <Modal title="Reset test data?" onClose={() => setConfirm(false)}>
           <p>All test bookings, interest entries and event changes in this browser will be cleared.</p>

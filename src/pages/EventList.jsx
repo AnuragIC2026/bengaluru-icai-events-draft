@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, Clock, MapPin, Percent, ChevronDown, ChevronUp } from 'lucide-react'
-import { listEvents, getSettings } from '../lib/store.js'
+import { listEvents, getSettings } from '../lib/data.js'
 import { enabledCategories, priceWithGst, describeDiscount } from '../lib/pricing.js'
 import { dayNum, monShort, dowShort, monthKey, fmtTimeRange, fmtDateShort, rupees } from '../lib/format.js'
 import { AudienceChips, isStudentEvent } from '../components/ui.jsx'

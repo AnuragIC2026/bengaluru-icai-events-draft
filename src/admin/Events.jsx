@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Search, Plus, Pencil, Copy, Eye, Percent } from 'lucide-react'
-import { listEvents, saveEvent } from '../lib/store.js'
+import { listEvents, saveEvent } from '../lib/data.js'
 import { CATEGORY_PLURAL, enabledCategories, describeDiscount } from '../lib/pricing.js'
 import { fmtDateRange, rupees } from '../lib/format.js'
 import { RequireRole } from './AdminLayout.jsx'
@@ -38,7 +38,7 @@ function EventsInner() {
   }, [events, q])
 
   const duplicate = async (e) => {
-    const copy = { ...e, id: undefined, code: undefined, title: `${e.title} (copy)`, status: 'paused', imageChange: e.imageUrl || undefined }
+    const copy = { ...e, id: undefined, code: undefined, title: `${e.title} (copy)`, status: 'paused', imageChange: e.imageUrl || undefined, imageCopyFrom: e.imageUrl ? e.id : undefined }
     const saved = await saveEvent(copy)
     toast('Copy made. It stays paused until you open it.')
     nav(`/admin/events/${saved.id}`)

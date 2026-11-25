@@ -1,6 +1,10 @@
-# Bengaluru ICAI Event Registration (test version)
+# Bengaluru ICAI Event Registration
 
-A separate event registration portal for the Bengaluru Branch of SIRC of ICAI, meant to run on its own subdomain. This is the test version: it runs entirely in the browser, so it can be hosted free on GitHub Pages.
+A separate event registration portal for the Bengaluru Branch of SIRC of ICAI, meant to run on its own subdomain.
+
+It runs in two ways:
+- **Browser test version** (default): everything is saved in the browser, so it runs free on GitHub Pages with no server.
+- **With the backend:** build with `VITE_API_URL` set to the API address and the same pages use the Node and MongoDB API in `server/`. See `server/README.md`.
 
 Built by IC Solutions.
 
@@ -95,22 +99,30 @@ src/
   data/events.json      imported events
   data/policies.js      refund, cancellation, privacy and e-payment text
   lib/pricing.js        fee, discount and GST maths (no browser code, reusable on the server)
-  lib/store.js          data layer; swap this for API calls when the backend is built
+  lib/data.js           picks the data source: api.js (backend) or store.js (browser test version)
+  lib/eventRules.js     event checks, shared with the server
+  lib/eventState.js     open, closed, full rules, shared with the server
   lib/validate.js       field rules and states list
   lib/excel.js          Excel exports
   pages/                public pages
   admin/                admin pages
 ```
 
-## For the live version
+## Backend
 
-These are not in the test version:
+The backend in `server/` covers the live version's needs:
+- database storage
+- server side price and seat checks
+- ICICI Eazypay with a test switch
+- receipt emails
+- hashed admin logins
+- image uploads
 
-- **Backend:** Node, Express and MongoDB. `lib/store.js` already has one async function per action, ready to map to API routes. `lib/pricing.js` should run on the server too, so prices are never trusted from the browser.
-- **Real ICICI Eazypay integration:**
-  - needs the branch's merchant ID, sub-merchant ID and encryption key
-  - the server builds the encrypted payment link and checks the return response before marking a booking paid
-- **Email receipts and GST invoices.** Needs an email service and the branch's GSTIN on the invoice.
-- **Admin logins** with hashed passwords, and a login history.
-- **Image storage:** in the test version images are kept in the browser (IndexedDB). The live version should upload them to the server or object storage and serve them through a CDN.
+See `server/README.md` for setup, deployment and the checklist before real payments.
+
+## Still to do for the live version
+
+- **ICICI Eazypay keys and a test transaction** with ICICI. The code is ready.
+- **GST invoices** with the branch's GSTIN and invoice numbering. The receipts are not tax invoices yet.
+- **Admin user management** from the admin panel. Logins are set in the server's `.env` for now.
 - **Seat holds:** seats held for a few minutes while payment is in progress.

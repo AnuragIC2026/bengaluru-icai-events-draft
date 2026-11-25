@@ -3,7 +3,7 @@
 // amber: soon (filling fast, closing in 2 or 3 days, paused)
 // green: fine (seats available, discount, free)
 // grey: over (closed)
-import { eventCloseAt } from './store.js'
+import { eventCloseAt } from './eventState.js'
 import { fmtDateShort, fmtTime, todayIST } from './format.js'
 
 function istParts(d) {

@@ -4,7 +4,7 @@
 
 import seedEvents from '../data/events.json'
 import { calcPrice, enabledCategories } from './pricing.js'
-import { istDate } from './format.js'
+import { eventStart, eventCloseAt, eventState, decorateEvent } from './eventState.js'
 import { getAllImages, getImage, putImage, deleteImage, clearImages } from './images.js'
 
 const NS = 'blricai-events:v1:'
@@ -84,28 +84,10 @@ function bookedCount(eventId, bookings) {
     .reduce((n, b) => n + b.participants.length, 0)
 }
 
-export function eventStart(e) {
-  return istDate(e.startDate, e.startTime)
-}
-export function eventCloseAt(e) {
-  return e.closesAt ? new Date(`${e.closesAt}:00+05:30`) : eventStart(e)
-}
-
-// open | soon | paused | full | closed
-export function eventState(e, now = new Date()) {
-  if (e.status === 'closed' || now >= eventCloseAt(e)) return 'closed'
-  if (e.status === 'paused') return 'paused'
-  if (e.bookingOpens && now < istDate(e.bookingOpens)) return 'soon'
-  if (e.seatsLeft <= 0) return 'full'
-  return 'open'
-}
+export { eventStart, eventCloseAt, eventState }
 
 function decorate(e, bookings) {
-  const booked = (e.bookedBefore || 0) + bookedCount(e.id, bookings)
-  const out = { ...e, booked, seatsLeft: Math.max(0, e.seats - booked) }
-  out.state = eventState(out)
-  out.maxNow = Math.max(0, Math.min(e.maxPerBooking, out.seatsLeft))
-  return out
+  return decorateEvent(e, bookedCount(e.id, bookings))
 }
 
 export async function listEvents() {
@@ -129,7 +111,7 @@ export async function saveEvent(input) {
   const events = read(KEYS.events, [])
   const now = new Date().toISOString()
   const clean = { ...input }
-  for (const k of ['booked', 'seatsLeft', 'state', 'maxNow', 'imageUrl', 'imageChange']) delete clean[k]
+  for (const k of ['booked', 'seatsLeft', 'state', 'maxNow', 'imageUrl', 'imageChange', 'imageCopyFrom']) delete clean[k]
   if (!clean.id) {
     clean.id = Math.max(0, ...events.map((e) => e.id)) + 1
     const codes = events.map((e) => Number(e.code)).filter(Boolean)
@@ -184,12 +166,13 @@ export async function createBooking({ eventId, category, contact, participants }
     contact,
     participants,
     price,
+    accessKey: Math.random().toString(36).slice(2, 12),
     status: price.total > 0 ? 'pending' : 'paid',
     payment: price.total > 0 ? null : { method: 'Free event', ref: '', at: new Date().toISOString() },
     createdAt: new Date().toISOString(),
   }
   write(KEYS.bookings, [...bookings, booking])
-  return delay(booking)
+  return delay({ booking, payment: { mode: booking.status === 'pending' ? 'test' : 'none' } })
 }
 
 export async function getBooking(id) {
@@ -203,7 +186,7 @@ export async function findBooking(id, emailOrMobile) {
   const b = read(KEYS.bookings, []).find((x) => x.id.toLowerCase() === String(id).trim().toLowerCase())
   if (!b) return delay(null)
   const ok = b.contact.email.toLowerCase() === q || b.contact.phone.replace(/\D/g, '') === q.replace(/\D/g, '')
-  return delay(ok ? b : null)
+  return delay(ok ? { id: b.id, accessKey: b.accessKey || '' } : null)
 }
 
 // Demo stand-in for the ICICI Eazypay return call.
@@ -260,7 +243,7 @@ export async function resetDemo() {
   return delay(true)
 }
 
-export function login(email, password) {
+export async function login(email, password) {
   const u = DEMO_USERS.find((x) => x.email === email.trim().toLowerCase() && x.password === password)
   if (!u) return null
   const session = { email: u.email, name: u.name, role: u.role }

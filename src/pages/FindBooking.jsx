@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
-import { findBooking } from '../lib/store.js'
+import { findBooking } from '../lib/data.js'
 import { Field, TextInput } from '../components/ui.jsx'
 
 export default function FindBooking() {
@@ -17,7 +17,7 @@ export default function FindBooking() {
     setMsg('')
     if (!id.trim() || !who.trim()) return setMsg('Enter both the booking number and the email or mobile used.')
     const b = await findBooking(id, who)
-    if (b) nav(`/booking/${b.id}`)
+    if (b) nav(`/booking/${b.id}?k=${encodeURIComponent(b.accessKey)}`)
     else setMsg('We could not find a booking with those details. Check the number on your receipt.')
   }
   return (

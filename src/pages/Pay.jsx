@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Lock, Landmark } from 'lucide-react'
-import { getBooking, completePayment } from '../lib/store.js'
+import { getBooking, completePayment } from '../lib/data.js'
 import { rupees } from '../lib/format.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
 
@@ -10,16 +10,19 @@ import { CATEGORY_LABELS } from '../lib/pricing.js'
 export default function Pay() {
   const { id } = useParams()
   const nav = useNavigate()
+  const [sp] = useSearchParams()
+  const key = sp.get('k') || ''
   const [b, setB] = useState(undefined)
   const [busy, setBusy] = useState(false)
+  const [msg, alertMsg] = useState('')
 
   useEffect(() => {
     document.title = 'Payment | Bengaluru ICAI'
-    getBooking(id).then((x) => {
-      if (x && x.status !== 'pending') nav(`/booking/${x.id}`, { replace: true })
+    getBooking(id, key).then((x) => {
+      if (x && x.status !== 'pending') nav(`/booking/${x.id}?k=${encodeURIComponent(key)}`, { replace: true })
       setB(x)
     })
-  }, [id, nav])
+  }, [id, key, nav])
 
   if (b === undefined) return <div className="narrow">Loading...</div>
   if (!b)
@@ -36,8 +39,13 @@ export default function Pay() {
 
   const finish = async (ok) => {
     setBusy(true)
-    const done = await completePayment(b.id, ok)
-    nav(`/booking/${done.id}`, { replace: true })
+    try {
+      const done = await completePayment(b.id, ok, key)
+      nav(`/booking/${done.id}?k=${encodeURIComponent(key)}`, { replace: true })
+    } catch (x) {
+      setBusy(false)
+      alertMsg(x.message)
+    }
   }
 
   return (
@@ -80,6 +88,11 @@ export default function Pay() {
             No money moves here. Choose what the bank would send back.
           </div>
         </div>
+        {msg && (
+          <div className="notice err" style={{ textAlign: 'left', marginBottom: 12 }} role="alert">
+            {msg}
+          </div>
+        )}
         <div className="pay-actions">
           <button className="btn btn-success btn-lg" disabled={busy} onClick={() => finish(true)}>
             Simulate a successful payment

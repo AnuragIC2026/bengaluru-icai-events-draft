@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Search, FileSpreadsheet, X } from 'lucide-react'
-import { listBookings, listEvents } from '../lib/store.js'
+import { listBookings, listEvents } from '../lib/data.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
 import { rupees, fmtDateTime } from '../lib/format.js'
 import { exportBookings } from '../lib/excel.js'

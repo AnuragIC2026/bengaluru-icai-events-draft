@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { NavLink, Navigate, Outlet, useLocation, useNavigate, useOutletContext, Link } from 'react-router-dom'
 import { LayoutDashboard, CalendarDays, Receipt, BellRing, Settings as SettingsIcon, LogOut, Menu, ExternalLink, ShieldAlert } from 'lucide-react'
 import logo from '../assets/icai-logo.png'
-import { currentUser, logout } from '../lib/store.js'
+import { currentUser, logout } from '../lib/data.js'
 
 const NAV = [
   { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin', 'accounts'], end: true },
