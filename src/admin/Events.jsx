@@ -84,7 +84,7 @@ function EventsInner() {
               <tr>
                 <th>Date</th>
                 <th>Event</th>
-                <th className="hide-md">Fees (before GST)</th>
+                <th className="hide-lg">Fees (before GST)</th>
                 <th>Seats</th>
                 <th>Status</th>
                 <th className="num">
@@ -127,7 +127,7 @@ function EventsInner() {
                       )}
                     </div>
                   </td>
-                  <td className="hide-md">{feeText(e)}</td>
+                  <td className="hide-lg">{feeText(e)}</td>
                   <td className="c-c">
                     <SeatBar e={e} />
                   </td>

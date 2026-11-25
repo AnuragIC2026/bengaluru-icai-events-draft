@@ -326,7 +326,7 @@ export default function EventPage() {
                 <tr>
                   <th>Category</th>
                   <th className="num">Fee</th>
-                  <th className="num">GST</th>
+                  <th className="num col-gst">GST</th>
                   <th className="num">You pay</th>
                 </tr>
               </thead>
@@ -337,7 +337,7 @@ export default function EventPage() {
                     <tr key={c}>
                       <td>{CATEGORY_PLURAL[c]}</td>
                       <td className="num">{rupees(p.fee)}</td>
-                      <td className="num">{p.gstRate ? rupees(p.gst) : 'None'}</td>
+                      <td className="num col-gst">{p.gstRate ? rupees(p.gst) : 'None'}</td>
                       <td className="num">
                         <b>{p.total ? rupees(p.total) : 'Free'}</b>
                       </td>

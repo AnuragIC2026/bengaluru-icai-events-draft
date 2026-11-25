@@ -699,3 +699,22 @@ svg.lucide { flex: none; }
   .about-img img { max-height: 360px; }
   .zoom-hint { opacity: 1; }
 }
+
+/* ---------- small screen fixes ---------- */
+.fee-table td.num { white-space: nowrap; }
+@media (max-width: 400px) {
+  .fee-table .col-gst { display: none; }
+}
+@media (max-width: 760px) {
+  .site-foot ul { gap: 2px; }
+  .site-foot li a, .site-foot li .link-btn { display: inline-block; padding: 7px 0; }
+}
+.seg button { white-space: nowrap; }
+@media (max-width: 380px) {
+  .seg button { font-size: 14px; padding: 8px 4px; }
+}
+/* phones turned sideways: don't let the sticky header eat the little height there is */
+@media (max-height: 480px) and (orientation: landscape) {
+  .site-head { position: static; }
+  .summary { position: static; }
+}

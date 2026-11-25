@@ -183,3 +183,11 @@
 .with-thumb { display: flex; align-items: center; gap: 10px; }
 .tbl-thumb { width: 36px; height: 36px; border-radius: 7px; object-fit: contain; background: var(--paper); border: 1px solid var(--line-2); flex: none; }
 .tbl-thumb.empty { display: inline-block; background: repeating-linear-gradient(45deg, var(--paper), var(--paper) 4px, var(--line-2) 4px, var(--line-2) 8px); }
+.tbl-wrap { position: relative; }
+@media (max-width: 1180px) {
+  .tbl .hide-lg { display: none; }
+}
+@media (max-width: 860px) {
+  .side { visibility: hidden; transition: transform .2s, visibility 0s linear .2s; }
+  .side.open { visibility: visible; transition: transform .2s; }
+}
