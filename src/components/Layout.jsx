@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom'
-import { Search, ExternalLink, FlaskConical } from 'lucide-react'
+import { Search, FlaskConical } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { IS_DEMO, getSettings } from '../lib/data.js'
 import logo from '../assets/icai-logo.png'
@@ -28,19 +28,17 @@ export function Header() {
   return (
     <header className="site-head">
       <div className="wrap">
-        <Link to="/" className="brand" aria-label="Bengaluru ICAI event registration, home">
-          <img src={logo} alt="The Institute of Chartered Accountants of India" width="128" height="60" />
+        <div className="brand">
+          <a href="https://bangaloreicai.org" className="brand-logo" title="Go to bangaloreicai.org">
+            <img src={logo} alt="The Institute of Chartered Accountants of India, go to the Bengaluru Branch website" width="128" height="60" />
+          </a>
           <span className="divider" />
-          <span className="brand-text">
+          <Link to="/" className="brand-text" aria-label="Event registration home">
             <strong>Event Registration</strong>
             <small>Bengaluru Branch of SIRC of ICAI</small>
-          </span>
-        </Link>
+          </Link>
+        </div>
         <nav className="head-links" aria-label="Main">
-          <a href="https://bangaloreicai.org" target="_blank" rel="noreferrer" className="head-link">
-            <ExternalLink size={17} />
-            <span>Branch website</span>
-          </a>
           <Link to="/find" className="head-btn">
             <Search size={17} />
             <span>Find a booking</span>
