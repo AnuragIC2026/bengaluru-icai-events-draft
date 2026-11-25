@@ -1,0 +1,860 @@
+[
+ {
+  "id": 26379,
+  "code": "1423",
+  "title": "Half a Day Seminar - Inside the Board Room",
+  "description": "Know the compliances for being a Board member\n(The Mock Board Meeting)",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-04",
+  "endDate": "2026-11-14",
+  "startTime": "16:00",
+  "endTime": "19:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 750.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 750.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 76,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-10",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 27387,
+  "code": "1432",
+  "title": "Study Circle Meeting",
+  "description": "Topic: 57th GST Council proposals and Key Considerations for 9 and 9C Returns",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru",
+  "startDate": "2026-11-11",
+  "endDate": "2026-11-11",
+  "startTime": "17:00",
+  "endTime": "20:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 300.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 600.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 189,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-30",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28389,
+  "code": "1435",
+  "title": "DTAA and TP Seminar | SICASA",
+  "description": "",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-13",
+  "endDate": "2026-11-13",
+  "startTime": "15:00",
+  "endTime": "18:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 100.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 32,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-06",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 27381,
+  "code": "1426",
+  "title": "Aura | SICASA",
+  "description": "",
+  "venue": "ICAI Bhawan, Rajajinagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-14",
+  "endDate": "2026-11-15",
+  "startTime": "10:00",
+  "endTime": "18:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 500.0
+   }
+  },
+  "seats": 40,
+  "bookedBefore": 34,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-23",
+  "closesAt": "",
+  "status": "paused",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 27384,
+  "code": "1429",
+  "title": "Half a Day Seminar at Tumkur",
+  "description": "Topic: Standards on Auditing\n&\nCapital Gain and Code of Ethics",
+  "venue": "TDCAA Premises, Tumkur",
+  "startDate": "2026-11-14",
+  "endDate": "2026-11-14",
+  "startTime": "10:00",
+  "endTime": "14:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 500.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 1000.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 103,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-27",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 26380,
+  "code": "1424",
+  "title": "Half a day seminar - Inside the Board Room - Part 2",
+  "description": "Mock Board Meeting Simulation\n(Part 2 of the Mock Board Meeting including the Mentorship on how hone the skills needed to be a Board member )",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-14",
+  "endDate": "2026-11-14",
+  "startTime": "13:00",
+  "endTime": "16:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 7500.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 7500.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 0,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-10",
+  "closesAt": "",
+  "status": "closed",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 27386,
+  "code": "1431",
+  "title": "Kannada Rajyotsava Celebration",
+  "description": "",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-14",
+  "endDate": "2026-11-14",
+  "startTime": "17:00",
+  "endTime": "19:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 0.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 33,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-29",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 26378,
+  "code": "1422",
+  "title": "One Day Seminar",
+  "description": "Topic: THE CFO PLAYBOOK Hone your skills to be a Transformative CFO",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-14",
+  "endDate": "2026-11-14",
+  "startTime": "09:30",
+  "endTime": "18:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 2500.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 3000.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 260,
+  "bookedBefore": 235,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-10",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 27385,
+  "code": "1430",
+  "title": "SICASA Bengaluru premier league | SICASA",
+  "description": "Participants- 7 players per team",
+  "venue": "2nd Main Rd, Guru Raghavendra Nagar, Elita Promenade, JP Nagar 7th Phase, J. P. Nagar, Bengaluru",
+  "startDate": "2026-11-15",
+  "endDate": "2026-11-15",
+  "startTime": "08:00",
+  "endTime": "18:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 3500.0
+   }
+  },
+  "seats": 32,
+  "bookedBefore": 23,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-27",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28387,
+  "code": "1433",
+  "title": "Half Day Workshop",
+  "description": "Topic: Mindset shift for Aggregation, Networking, Merger of CA Firms and the provisions under CA Act and Regulations",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-18",
+  "endDate": "2026-11-18",
+  "startTime": "17:00",
+  "endTime": "20:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 300.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 600.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 86,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-02",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28391,
+  "code": "1437",
+  "title": "The Communication Arena - SPARK | SICASA",
+  "description": "",
+  "venue": "Ananya PU College, Tumkur",
+  "startDate": "2026-11-19",
+  "endDate": "2026-11-19",
+  "startTime": "10:00",
+  "endTime": "13:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 100.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 1,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-07",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28390,
+  "code": "1436",
+  "title": "ROC Seminar | SICASA",
+  "description": "",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-21",
+  "endDate": "2026-11-21",
+  "startTime": "15:00",
+  "endTime": "18:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 100.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 0,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-06",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28392,
+  "code": "1438",
+  "title": "The BoardRoom - SPARK | SICASA",
+  "description": "",
+  "venue": "ICAI Bhawan, Rajaji Nagar, Bengaluru",
+  "startDate": "2026-11-22",
+  "endDate": "2026-11-22",
+  "startTime": "15:00",
+  "endTime": "18:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 100.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 1,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-07",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 27382,
+  "code": "1427",
+  "title": "Chakrayana | SICASA",
+  "description": "",
+  "venue": "To be confirmed",
+  "startDate": "2026-11-22",
+  "endDate": "2026-11-22",
+  "startTime": "07:00",
+  "endTime": "10:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 200.0
+   }
+  },
+  "seats": 50,
+  "bookedBefore": 33,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-23",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 27383,
+  "code": "1428",
+  "title": "Half a Day Seminar at Tumkur",
+  "description": "Topic: Technology as a Tool in Filing 9 & 9C",
+  "venue": "TDCAA Premises, Tumkur",
+  "startDate": "2026-11-24",
+  "endDate": "2026-11-24",
+  "startTime": "10:30",
+  "endTime": "13:30",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 500.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 1000.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 18,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-27",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28388,
+  "code": "1434",
+  "title": "Study Circle Meeting",
+  "description": "Topic: FAST DS- Foreign asset small tax payers disclosure scheme 2026",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru",
+  "startDate": "2026-11-25",
+  "endDate": "2026-11-25",
+  "startTime": "17:00",
+  "endTime": "20:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 300.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 600.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 83,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-05",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28397,
+  "code": "1443",
+  "title": "One Day Seminar on Valuations",
+  "description": "",
+  "venue": "To be confirmed",
+  "startDate": "2026-11-28",
+  "endDate": "2026-11-28",
+  "startTime": "10:00",
+  "endTime": "17:30",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 2500.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 5000.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 250,
+  "bookedBefore": 6,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-14",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28394,
+  "code": "1440",
+  "title": "Beyond the AIR | SICASA",
+  "description": "",
+  "venue": "Ananya PU College Tumkur",
+  "startDate": "2026-11-28",
+  "endDate": "2026-11-28",
+  "startTime": "14:00",
+  "endTime": "17:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 100.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 0,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-07",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 26375,
+  "code": "1419",
+  "title": "Kalarava | SICASA",
+  "description": "Registration fee - Rs 300(Early Bird till Nov 25)\nEarly Bird offer ends on November 10th\nAfter Early Bird offer - Rs 450",
+  "venue": "Will be Announced Soon.",
+  "startDate": "2026-11-29",
+  "endDate": "2026-11-29",
+  "startTime": "10:00",
+  "endTime": "18:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 300.0
+   }
+  },
+  "seats": 1000,
+  "bookedBefore": 4,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-10-06",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28393,
+  "code": "1439",
+  "title": "Articleship Chronicales | SICASA",
+  "description": "",
+  "venue": "ICAI Bhawan, Vasanthnagar Branch Premises, Bengaluru.",
+  "startDate": "2026-11-29",
+  "endDate": "2026-11-29",
+  "startTime": "15:00",
+  "endTime": "18:00",
+  "categories": {
+   "member": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": true,
+    "fee": 100.0
+   }
+  },
+  "seats": 200,
+  "bookedBefore": 0,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-07",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28396,
+  "code": "1442",
+  "title": "RRC in Gift City",
+  "description": "Limited Seats Available, Flight and Accommodation Included",
+  "venue": "Gift City, Gujarat",
+  "startDate": "2026-12-02",
+  "endDate": "2026-12-04",
+  "startTime": "09:00",
+  "endTime": "21:00",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 40000.0
+   },
+   "nonMember": {
+    "enabled": false,
+    "fee": 0.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 30,
+  "bookedBefore": 2,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-12",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ },
+ {
+  "id": 28395,
+  "code": "1441",
+  "title": "Half A Day Seminar at Tumkur",
+  "description": "Topic: Digital Transformation of CA Practice: Mastering TallyPrime for Audit, Automation & Analytics",
+  "venue": "TDCAA Premises, Tumkur",
+  "startDate": "2026-12-05",
+  "endDate": "2026-12-05",
+  "startTime": "10:30",
+  "endTime": "13:45",
+  "categories": {
+   "member": {
+    "enabled": true,
+    "fee": 300.0
+   },
+   "nonMember": {
+    "enabled": true,
+    "fee": 600.0
+   },
+   "student": {
+    "enabled": false,
+    "fee": 0.0
+   }
+  },
+  "seats": 150,
+  "bookedBefore": 7,
+  "maxPerBooking": 5,
+  "bulk": {
+   "enabled": false,
+   "minQty": 5,
+   "type": "percent",
+   "value": 10
+  },
+  "bookingOpens": "2026-11-11",
+  "closesAt": "",
+  "status": "open",
+  "cpeHours": "",
+  "speakers": ""
+ }
+]
