@@ -36,7 +36,7 @@ export default function Dashboard() {
     const paid = bookings.filter((b) => b.status === 'paid')
     return {
       open: events.filter((e) => e.state === 'open').length,
-      upcoming: events.filter((e) => e.state !== 'closed'),
+      upcoming: events.filter((e) => !e.ended),
       paid: paid.length,
       failed: bookings.filter((b) => b.status === 'failed').length,
       people: paid.reduce((n, b) => n + b.participants.length, 0),

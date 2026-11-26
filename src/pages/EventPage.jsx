@@ -359,7 +359,7 @@ export default function EventPage() {
               <div className="notice">
                 <Info size={20} />
                 <div>
-                  <b>Registration for this event has closed.</b>
+                  <b>{event.ended ? 'This event is over.' : 'Registration for this event has closed.'}</b>
                   {cats.includes('student') ? 'For questions, contact the SICASA desk.' : 'For questions, contact the registrations desk.'}
                 </div>
               </div>

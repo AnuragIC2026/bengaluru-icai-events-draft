@@ -31,8 +31,8 @@ function EventsInner() {
     const term = q.trim().toLowerCase()
     const m = (e) => !term || [e.title, e.venue, e.code, String(e.id)].join(' ').toLowerCase().includes(term)
     return {
-      upcoming: all.filter((e) => e.state !== 'closed' && m(e)),
-      past: all.filter((e) => e.state === 'closed' && m(e)).reverse(),
+      upcoming: all.filter((e) => !e.ended && m(e)),
+      past: all.filter((e) => e.ended && m(e)).reverse(),
       all: all.filter(m),
     }
   }, [events, q])

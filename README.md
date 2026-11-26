@@ -11,7 +11,7 @@ Built by IC Solutions.
 ## What works in this version
 
 **Public portal**
-- Event list grouped by month, with search and a Members or Students filter. Past events sit under "Recently closed".
+- Event list grouped by month, with search and a Members or Students filter. An event stays in the list until it is over (its end date and end time), even after registration closes. Then it moves by itself to "Past events", with no admin step. An open page rechecks every minute.
 - Event page with date, time, venue, seats left, description, and a fee table showing GST.
 - Booking form on the same page:
   - one category per booking (member, non-member or student)

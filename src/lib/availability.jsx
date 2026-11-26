@@ -34,6 +34,7 @@ export function closingIndicator(e, now = new Date()) {
 }
 
 export function stateIndicator(e) {
+  if (e.ended) return { tone: 'grey', label: 'Event over' }
   switch (e.state) {
     case 'closed':
       return { tone: 'grey', label: 'Registration closed' }

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, Clock, MapPin, Percent, ChevronDown, ChevronUp } from 'lucide-react'
 import { listEvents, getSettings } from '../lib/data.js'
+import { eventState, eventEnded } from '../lib/eventState.js'
 import { enabledCategories, priceWithGst, describeDiscount } from '../lib/pricing.js'
 import { dayNum, monShort, dowShort, monthKey, fmtTimeRange, fmtDateShort, rupees } from '../lib/format.js'
 import { AudienceChips, isStudentEvent } from '../components/ui.jsx'
@@ -111,6 +112,12 @@ export default function EventList() {
   const [q, setQ] = useState('')
   const [filter, setFilter] = useState('all')
   const [showClosed, setShowClosed] = useState(false)
+  // Re-check every minute so events move by themselves while the page stays open.
+  const [now, setNow] = useState(() => new Date())
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 60 * 1000)
+    return () => clearInterval(t)
+  }, [])
 
   useEffect(() => {
     document.title = 'Event registration | Bengaluru ICAI'
@@ -128,12 +135,12 @@ export default function EventList() {
       if (!term) return true
       return [e.title, e.description, e.venue].join(' ').toLowerCase().includes(term)
     }
-    const list = events.filter(match)
+    const list = events.map((e) => ({ ...e, state: eventState(e, now), ended: eventEnded(e, now) })).filter(match)
     return {
-      upcoming: list.filter((e) => e.state !== 'closed'),
-      closed: list.filter((e) => e.state === 'closed').reverse(),
+      upcoming: list.filter((e) => !e.ended),
+      closed: list.filter((e) => e.ended).reverse(),
     }
-  }, [events, q, filter])
+  }, [events, q, filter, now])
 
   const groups = useMemo(() => {
     const m = new Map()
@@ -145,7 +152,7 @@ export default function EventList() {
     return [...m.entries()]
   }, [upcoming])
 
-  const openCount = events ? events.filter((e) => e.state === 'open').length : 0
+  const openCount = events ? events.filter((e) => eventState(e, now) === 'open').length : 0
 
   return (
     <>
@@ -210,7 +217,7 @@ export default function EventList() {
               {closed.length > 0 && (
                 <>
                   <div className="closed-toggle">
-                    <h2>Recently closed</h2>
+                    <h2>Past events</h2>
                     <button className="btn btn-ghost btn-sm" onClick={() => setShowClosed((s) => !s)} aria-expanded={showClosed}>
                       {showClosed ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                       {showClosed ? 'Hide' : `Show ${closed.length}`}
