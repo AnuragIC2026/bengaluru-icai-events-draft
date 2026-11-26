@@ -1,7 +1,7 @@
 {
   "name": "Bengaluru ICAI Event Registration",
   "short_name": "ICAI Events",
-  "description": "Register for seminars, study circles and SICASA events of the Bengaluru Branch of SIRC of ICAI.",
+  "description": "Register for seminars, study circles and SICASA events of the ICAI Bengaluru Branch (SIRC).",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
