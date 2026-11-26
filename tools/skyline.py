@@ -346,10 +346,11 @@ def metro():
     """Namma Metro viaduct and a purple train."""
     o = []
     deck = G - 54
-    for px in range(1200, 1921, 72):
+    # starts behind the photo's right wing so the line runs on out of the scene
+    for px in range(1056, 1921, 72):
         o.append(path(f'M{px - 5} {G}V{deck + 14}H{px - 10}V{deck + 6}H{px + 10}V{deck + 14}H{px + 5}V{G}Z', 'b'))
-    o.append(rect(1180, deck, 760, 8, 'b'))
-    o.append(lines([(1180, deck + 4, 1940, deck + 4)]))
+    o.append(rect(1000, deck, 940, 8, 'b'))
+    o.append(lines([(1000, deck + 4, 1940, deck + 4)]))
     for i in range(3):
         x = 1330 + i * 64
         o.append(path(f'M{x} {deck}V{deck - 14}Q{x} {deck - 22} {x + 8} {deck - 22}H{x + 58}V{deck}Z', 'metro'))
@@ -366,17 +367,41 @@ PHOTO_H = round(PHOTO_W * PHOTO_IMG[1] / PHOTO_IMG[0], 1)
 PHOTO = {'x': 720 - PHOTO_W / 2, 'y': round(G - PHOTO_H * (PHOTO_IMG[1] - PHOTO_IMG[2]) / PHOTO_IMG[1], 1), 'width': PHOTO_W, 'height': PHOTO_H}
 
 
+def hedge(x0, x1):
+    """Garden shrubs in front of the photo, so its base sits in the same drawn ground as the rest."""
+    sizes = [15, 11, 18, 13, 16, 10, 14, 19, 12, 16, 11, 17, 13]
+    d_back, d_front, d_line, x, k = '', '', '', x0, 0
+    while x < x1:
+        r = sizes[k % len(sizes)]
+        w = 2 * r
+        # a low rounded shrub: wider than tall
+        shape = f'M{f(x)} {G}c0 {-r * .9} {f(r * .4)} {-r * 1.15} {r} {-r * 1.15}s{r} {f(r * .25)} {r} {r * 1.15}'
+        if k % 2:
+            d_front += shape + 'Z'
+        else:
+            d_back += shape + 'Z'
+        d_line += shape
+        x += w - (5 if k % 2 else 7)
+        k += 1
+    return [path(d_back, 'leaf-fill'), path(d_front, 'leaf-fill2'), path(d_line, 'leaf')]
+
+
 def svg_parts():
+    # behind the photo: the CBD towers and the metro, which runs out from behind the building's right wing
+    city_back = ''.join([
+        '<g class="towers">' + ''.join(towers()) + '</g>',
+        '<g class="metro-line">' + ''.join(metro()) + '</g>',
+    ])
+    # in front of the photo
     city = ''.join([
         '<g class="houses">' + ''.join(bungalow(-476, 40, 30)) + '</g>',
         '<g class="gopuram">' + ''.join(gopuram(-370)) + '</g>',
         '<g class="glasshouse">' + ''.join(glass_house(-150)) + '</g>',
         '<g class="palace">' + ''.join(bangalore_palace(10)) + '</g>',
-        '<g class="towers">' + ''.join(towers()) + '</g>',
-        '<g class="metro-line">' + ''.join(metro()) + '</g>',
+        '<g class="hedge">' + ''.join(hedge(PHOTO['x'] + 4, PHOTO['x'] + PHOTO['width'] - 14)) + '</g>',
         '<g class="houses">' + ''.join(bungalow(1846, 44, 30)) + '</g>',
         ''.join('<g class="tree">' + ''.join(rain_tree(*a)) + '</g>' for a in [
-            (-300, 18, 18, False), (-4, 16, 16, True), (1188, 20, 20, True), (1898, 22, 22, False)]),
+            (-300, 18, 18, False), (-4, 16, 16, True), (286, 22, 24, False), (1150, 26, 28, True), (1898, 22, 22, False)]),
     ])
     cx, cy = 790, 176
     rays = ''.join(
@@ -390,7 +415,7 @@ def svg_parts():
     back = (path('M-480 300C-300 236-120 254 40 282C200 236 380 210 560 266C700 302 760 302 900 266C1080 214 1260 226 1420 272C1580 236 1760 226 1920 262V392H-480Z', 'hill-1') +
             path('M-480 332C-320 298-160 302 0 324C180 302 340 290 520 320C680 342 780 338 940 314C1120 290 1300 300 1460 324C1620 302 1780 298 1920 318V392H-480Z', 'hill-2'))
     ground = path(f'M-480 {G}H1920V392H-480Z', 'ground-band') + path(f'M-480 {G}H1920', 'ground') + path(f'M-480 {G + 12}H1920', 'road')
-    return {'sky': sky, 'back': back, 'city': city, 'ground': ground}
+    return {'sky': sky, 'back': back, 'city_back': city_back, 'city': city, 'ground': ground}
 
 
 if __name__ == '__main__':

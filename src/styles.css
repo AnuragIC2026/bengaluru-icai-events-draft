@@ -159,6 +159,7 @@ svg.lucide { flex: none; }
 .skyline-retro .metro-line .win { fill: #FFF3E2; }
 /* trees */
 .skyline-retro .city .leaf-fill { fill: #4E8B5A; stroke: none; }
+.skyline-retro .city .leaf-fill2 { fill: #6FA36B; stroke: none; }
 .skyline-retro .city .leaf { fill: none; stroke-width: 1.7; }
 .skyline-retro .city .trunk { fill: none; stroke: #5B3A24; stroke-width: 3; }
 .skyline-retro .city .flower { fill: #E4573D; stroke: none; }
