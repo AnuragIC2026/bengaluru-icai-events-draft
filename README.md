@@ -57,13 +57,17 @@ Built by IC Solutions.
 
 Test logins are shown on the login page.
 
+## Naming
+
+The branch is always written as **ICAI Bengaluru Branch (SIRC)**: on the site, in the policies, the receipt email, the share image, the sample posters and the meta tags.
+
 ## Data
 
 - The 22 events from 1 November 2026 onwards are imported from the old portal's database backup. Fees, seats, venues, times and descriptions are unchanged.
 - Seats already sold on the old portal count against seats left.
 - One fix was made to the data: "Half a Day Seminar at Tumkur" on 24 Nov had its end time saved as 1:30, which has been read as 1:30 pm.
 - Booking numbers continue the old format and sequence: EICAI00158187 onwards.
-- Policy text is copied as it was on bangaloreicai.org.
+- Policy text is copied as it was on bangaloreicai.org, with the branch name updated.
 
 Everything you add or book is saved in your browser only. Another browser or device starts fresh. Settings has a "Reset test data" button.
 
