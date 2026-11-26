@@ -358,23 +358,27 @@ def metro():
     return o
 
 
+# The real Vidhana Soudha: Aaron Antony Paul's photo (Unsplash License), cut out and graded into
+# evening light in the portal palette by IC Solutions. Placed between the drawn buildings.
+PHOTO_W = 880
+PHOTO_IMG = (1034, 288, 10)  # width, height, padding added for the outline and print shadow
+PHOTO_H = round(PHOTO_W * PHOTO_IMG[1] / PHOTO_IMG[0], 1)
+PHOTO = {'x': 720 - PHOTO_W / 2, 'y': round(G - PHOTO_H * (PHOTO_IMG[1] - PHOTO_IMG[2]) / PHOTO_IMG[1], 1), 'width': PHOTO_W, 'height': PHOTO_H}
+
+
 def svg_parts():
-    soudha = vidhana_soudha()
     city = ''.join([
-        '<g class="houses">' + ''.join(bungalow(-472, 46, 34) + bungalow(-418, 38, 28) + bungalow(-362, 50, 38)) + '</g>',
-        '<g class="gopuram">' + ''.join(gopuram()) + '</g>',
-        '<g class="glasshouse">' + ''.join(glass_house()) + '</g>',
-        '<g class="palace">' + ''.join(bangalore_palace()) + '</g>',
+        '<g class="houses">' + ''.join(bungalow(-476, 40, 30)) + '</g>',
+        '<g class="gopuram">' + ''.join(gopuram(-370)) + '</g>',
+        '<g class="glasshouse">' + ''.join(glass_house(-150)) + '</g>',
+        '<g class="palace">' + ''.join(bangalore_palace(10)) + '</g>',
         '<g class="towers">' + ''.join(towers()) + '</g>',
-        '<g class="soudha">' + ''.join(soudha) + '</g>',
-        '<g class="attara">' + ''.join(attara_kacheri()) + '</g>',
         '<g class="metro-line">' + ''.join(metro()) + '</g>',
         '<g class="houses">' + ''.join(bungalow(1846, 44, 30)) + '</g>',
         ''.join('<g class="tree">' + ''.join(rain_tree(*a)) + '</g>' for a in [
-            (-300, 26, 24, False), (-158, 22, 22, True), (148, 20, 20, False), (438, 24, 22, True),
-            (1188, 20, 20, True), (1898, 22, 22, False), (-60, 16, 16, False), (64, 16, 16, True)]),
+            (-300, 18, 18, False), (-4, 16, 16, True), (1188, 20, 20, True), (1898, 22, 22, False)]),
     ])
-    cx, cy = 848, 150
+    cx, cy = 790, 176
     rays = ''.join(
         f'M{cx} {cy}L{f(cx + 900 * math.cos(2 * math.pi * i / 28))} {f(cy + 900 * math.sin(2 * math.pi * i / 28))}'
         f'L{f(cx + 900 * math.cos(2 * math.pi * i / 28 + math.pi / 28))} {f(cy + 900 * math.sin(2 * math.pi * i / 28 + math.pi / 28))}Z'
@@ -400,4 +404,5 @@ if __name__ == '__main__':
                  "export const SKYLINE_VIEWBOX = '-480 0 2400 392'\n")
         for k, v in parts.items():
             fh.write(f'export const SKY_{k.upper()} = {json.dumps(v)}\n')
+        fh.write(f'export const SKY_PHOTO = {json.dumps(PHOTO)}\n')
     print({k: len(v) for k, v in parts.items()})

@@ -120,6 +120,10 @@ The backend in `server/` covers the live version's needs:
 
 See `server/README.md` for setup, deployment and the checklist before real payments.
 
+## Image credits
+
+The Vidhana Soudha in the header is a photo by Aaron Antony Paul on Unsplash (Unsplash License, free for commercial use, no permission needed). We cut it out and recoloured it into an evening look to match the portal. The edited file is `src/assets/vidhana-soudha-evening.webp`; its size and place in the skyline are set in `tools/skyline.py`.
+
 ## Still to do for the live version
 
 - **ICICI Eazypay keys and a test transaction** with ICICI. The code is ready.
