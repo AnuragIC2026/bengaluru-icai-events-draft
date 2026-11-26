@@ -100,9 +100,9 @@ export function EventTicket({ e, gstRate }) {
 }
 
 const FILTERS = [
-  { key: 'all', label: 'All events' },
   { key: 'members', label: 'Members' },
   { key: 'students', label: 'Students' },
+  { key: 'all', label: 'All events' },
 ]
 
 export default function EventList() {

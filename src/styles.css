@@ -109,13 +109,15 @@ svg.lucide { flex: none; }
 .skyline-retro .city .rec { fill: #E2C79B; }
 .skyline-retro .city .trim { fill: #FFF8EC; }
 .skyline-retro .city .roof { fill: #C2622D; }
-/* Vidhana Soudha: pale granite, gold domes */
-.skyline-retro .soudha .b { fill: #F7EBD3; }
-.skyline-retro .soudha .b2 { fill: #E4D2B0; }
-.skyline-retro .soudha .col { fill: #FFF8EC; }
-.skyline-retro .soudha .dome { fill: #F2B550; }
-.skyline-retro .soudha .rec { fill: #D9BE8E; }
-.skyline-retro .soudha .win { fill: #2C4A63; }
+/* Vidhana Soudha: grey granite throughout, only the Ashoka lions in gold */
+.skyline-retro .soudha .b { fill: #ECE7DC; }
+.skyline-retro .soudha .b2 { fill: #DCD5C6; }
+.skyline-retro .soudha .trim { fill: #F7F3EA; }
+.skyline-retro .soudha .col { fill: #F4F0E6; }
+.skyline-retro .soudha .dome { fill: #E2DBCC; }
+.skyline-retro .soudha .rec { fill: #B9B0A0; }
+.skyline-retro .soudha .win { fill: #3A4A5E; }
+.skyline-retro .city .gold { fill: #D9A441; stroke-width: 1.4; }
 /* Attara Kacheri: Pompeian red with white trim */
 .skyline-retro .attara .b { fill: #C9553F; }
 .skyline-retro .attara .rec2 { fill: #8E3527; }
@@ -167,6 +169,7 @@ svg.lucide { flex: none; }
 .skyline-retro .ground { stroke: #1E2F5C; stroke-width: 2.4; }
 .skyline-retro .road { stroke: #F4B860; stroke-width: 2.4; stroke-dasharray: 22 16; }
 .skyline-night * { fill: #0D2560; stroke: #0D2560; }
+.skyline-night .gold { fill: #0D2560; }
 .skyline-night .ln, .skyline-night .ln2, .skyline-night .fin, .skyline-night .win, .skyline-night .win2, .skyline-night .rec, .skyline-night .rec2, .skyline-night .road, .skyline-night .flower { display: none; }
 .skyline-night .trunk { fill: none; stroke-width: 3; }
 .skyline-night .ground { stroke-width: 2; }

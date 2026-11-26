@@ -94,61 +94,91 @@ def chhatri(cx, base, w=26):
 
 # ---------------------------------------------------------------- landmarks
 
+def small_dome(cx, base, w):
+    """Low stone dome on a short drum, as on the Vidhana Soudha pavilions."""
+    hw = w / 2
+    return (rect(cx - hw - 3, base - 3, w + 6, 3, 'trim') +
+            rect(cx - hw + 2, base - 3 - w * .32, w - 4, w * .32, 'b') +
+            lines([(cx - hw + 2 + k * (w - 4) / 4, base - 3 - w * .32, cx - hw + 2 + k * (w - 4) / 4, base - 3) for k in range(1, 4)]) +
+            rect(cx - hw, base - 5 - w * .32, w, 2.5, 'trim') +
+            path(f'M{f(cx - hw * .92)} {f(base - 5 - w * .32)}C{f(cx - hw * .95)} {f(base - 5 - w * .32 - w * .55)} {f(cx + hw * .95)} {f(base - 5 - w * .32 - w * .55)} {f(cx + hw * .92)} {f(base - 5 - w * .32)}Z', 'dome') +
+            kalasha(cx, base - 5 - w * .32 - w * .42, .7))
+
+
 def vidhana_soudha(cx=720):
+    """Vidhana Soudha, east front: granite wings, low corner pavilions, a 12 column portico on a grand
+    staircase, the central tower, and the ribbed stone dome crowned by the Ashoka lions."""
     o = []
-    L, R = cx - 268, cx + 268
-    # plinth and grand staircase
-    o.append(rect(L - 16, G - 14, (R - L) + 32, 14, 'b2'))
-    o.append(path(f'M{cx - 92} {G}L{cx - 76} {G - 34}H{cx + 76}L{cx + 92} {G}Z', 'b'))
-    o.append(lines([(cx - 92 + i * 2, G - i * 4.25, cx + 92 - i * 2, G - i * 4.25) for i in range(1, 8)]))
-    # wings, four storeys
-    for x0, x1 in ((L + 10, cx - 84), (cx + 84, R - 10)):
-        o.append(rect(x0, G - 92, x1 - x0, 78, 'b'))
-        o.append(rect(x0 - 4, G - 96, x1 - x0 + 8, 5, 'trim'))  # chajja
-        o.append(merlons(x0, x1, G - 96, 5, 4, 5))
-        n = int((x1 - x0 - 10) // 13)
-        o.append(grid(x0 + 7, G - 84, n, 1, 6, 11, 13, 0, 'rec', 'arch'))
-        o.append(grid(x0 + 7, G - 66, n, 3, 6, 9, 13, 15, 'rec'))
-        o.append(lines([(x0, G - 70, x1, G - 70)]))
-    # towers on the wings, each crowned with a chhatri
-    for tx in (L + 12, cx - 120, cx + 120, R - 12):
-        w = 40 if abs(tx - cx) > 200 else 34
-        o.append(rect(tx - w / 2, G - 122, w, 108, 'b'))
-        o.append(rect(tx - w / 2 - 4, G - 126, w + 8, 5, 'trim'))
-        o.append(grid(tx - w / 2 + 6, G - 114, 3 if w == 40 else 2, 1, 6, 12, 11 if w == 40 else 16, 0, 'rec', 'arch'))
-        o.append(grid(tx - w / 2 + 6, G - 94, 3 if w == 40 else 2, 4, 6, 9, 11 if w == 40 else 16, 18, 'rec'))
-        o.append(chhatri(tx, G - 126, 24 if w == 40 else 22))
-    # central block behind the portico
-    o.append(rect(cx - 84, G - 162, 168, 128, 'b'))
-    o.append(rect(cx - 88, G - 166, 176, 5, 'trim'))
-    o.append(merlons(cx - 84, cx + 84, G - 166, 5, 4, 5))
-    o.append(grid(cx - 74, G - 154, 11, 1, 7, 14, 14, 0, 'rec', 'arch'))
-    for tx in (cx - 70, cx + 70):
-        o.append(chhatri(tx, G - 170, 22))
-    # drum and the great central dome
-    o.append(rect(cx - 40, G - 196, 80, 30, 'b'))
-    o.append(grid(cx - 34, G - 190, 6, 1, 7, 18, 11.6, 0, 'rec', 'arch'))
-    o.append(rect(cx - 44, G - 200, 88, 5, 'trim'))
-    o.append(rect(cx - 36, G - 206, 72, 6, 'b'))
-    o.append(onion(cx, G - 206, 82, 64))
-    o.append(path(''.join(f'M{f(cx)} {G - 268}Q{f(cx + k * 30)} {G - 240} {f(cx + k * 33)} {G - 206}' for k in (-1, -.5, .5, 1)), 'ln'))
-    o.append(lines([(cx, G - 270, cx, G - 206)]))
-    # lotus, kalasha and the Ashoka lions
-    o.append(path(f'M{cx - 10} {G - 266}Q{cx - 8} {G - 276} {cx} {G - 278}Q{cx + 8} {G - 276} {cx + 10} {G - 266}Z', 'trim'))
-    o.append(rect(cx - 4, G - 290, 8, 12, 'b'))
-    o.append(path(f'M{cx - 6} {G - 290}Q{cx} {G - 300} {cx + 6} {G - 290}Z', 'trim'))
-    # portico: entablature, inscription band, twelve granite columns
-    o.append(rect(cx - 84, G - 40, 168, 6, 'b2'))
-    o.append(rect(cx - 82, G - 98, 164, 58, 'rec'))
-    o.append(arch_win(cx - 12, G - 82, 24, 42, 'win'))
-    o.append(rect(cx - 90, G - 110, 180, 12, 'b'))
-    o.append(rect(cx - 86, G - 118, 172, 8, 'trim'))
-    o.append(lines([(cx - 90, G - 104, cx + 90, G - 104)]))
+    L, R = cx - 272, cx + 272
+    # plinth along the whole front
+    o.append(rect(L - 14, G - 14, (R - L) + 28, 14, 'b2'))
+    # wings: four storeys with a deep chajja and a Dravidian parapet
+    for x0, x1 in ((L + 34, cx - 104), (cx + 104, R - 34)):
+        o.append(rect(x0, G - 96, x1 - x0, 82, 'b'))
+        o.append(rect(x0 - 4, G - 100, x1 - x0 + 8, 5, 'trim'))
+        o.append(merlons(x0, x1, G - 100, 5, 4, 4))
+        n = int((x1 - x0 - 8) // 12)
+        o.append(grid(x0 + 6, G - 90, n, 1, 6, 12, 12, 0, 'rec', 'arch'))
+        o.append(grid(x0 + 6, G - 70, n, 3, 6, 9, 12, 17, 'rec'))
+        o.append(lines([(x0, G - 74, x1, G - 74), (x0, G - 40, x1, G - 40)]))
+    # low corner pavilions at both ends
+    for tx in (L + 18, R - 18):
+        o.append(rect(tx - 34, G - 118, 68, 104, 'b'))
+        o.append(rect(tx - 38, G - 122, 76, 5, 'trim'))
+        o.append(merlons(tx - 36, tx + 36, G - 122, 5, 4, 4))
+        o.append(grid(tx - 26, G - 112, 4, 1, 7, 14, 15, 0, 'rec', 'arch'))
+        o.append(grid(tx - 26, G - 90, 4, 4, 7, 10, 15, 18, 'rec'))
+        o.append(small_dome(tx, G - 122, 30))
+    # pavilions either side of the central block
+    for tx in (cx - 130, cx + 130):
+        o.append(rect(tx - 26, G - 112, 52, 98, 'b'))
+        o.append(rect(tx - 30, G - 116, 60, 5, 'trim'))
+        o.append(merlons(tx - 28, tx + 28, G - 116, 5, 4, 4))
+        o.append(grid(tx - 19, G - 106, 3, 1, 7, 13, 15, 0, 'rec', 'arch'))
+        o.append(grid(tx - 19, G - 86, 3, 4, 7, 10, 15, 18, 'rec'))
+        o.append(small_dome(tx, G - 116, 26))
+    # grand staircase up to the portico
+    o.append(path(f'M{cx - 122} {G}L{cx - 100} {G - 40}H{cx + 100}L{cx + 122} {G}Z', 'b2'))
+    o.append(lines([(cx - 122 + i * 2.2, G - i * 4, cx + 122 - i * 2.2, G - i * 4) for i in range(1, 10)]))
+    # portico: dark recess, twelve tall granite columns, entablature and the inscription band
+    o.append(rect(cx - 104, G - 116, 208, 76, 'rec'))
+    o.append(arch_win(cx - 12, G - 80, 24, 40, 'win'))
+    for xx in (cx - 60, cx + 36):
+        o.append(arch_win(xx, G - 74, 24, 34, 'win'))
+    o.append(rect(cx - 106, G - 44, 212, 6, 'b'))
     for i in range(12):
-        x = cx - 80 + i * (160 / 11)
-        o.append(rect(x - 3.2, G - 96, 6.4, 56, 'col'))
-        o.append(rect(x - 5, G - 99, 10, 4, 'b'))
-        o.append(rect(x - 5, G - 42, 10, 3, 'b'))
+        x = cx - 96 + i * (192 / 11)
+        o.append(rect(x - 3.6, G - 110, 7.2, 66, 'col'))
+        o.append(rect(x - 5.5, G - 114, 11, 4.5, 'b'))
+        o.append(rect(x - 5.5, G - 46, 11, 3, 'b'))
+    o.append(rect(cx - 108, G - 128, 216, 14, 'b'))
+    o.append(lines([(cx - 108, G - 121, cx + 108, G - 121)]))
+    o.append(rect(cx - 70, G - 138, 140, 10, 'trim'))
+    o.append(path(''.join(f'M{f(cx - 60 + k * 6.2)} {G - 133}h3.6' for k in range(20)), 'ln'))
+    o.append(rect(cx - 112, G - 142, 224, 4, 'trim'))
+    # central tower above the portico, with small corner domes
+    o.append(rect(cx - 72, G - 184, 144, 42, 'b'))
+    o.append(grid(cx - 64, G - 178, 10, 1, 7, 15, 13.4, 0, 'rec', 'arch'))
+    o.append(lines([(cx - 72, G - 158, cx + 72, G - 158)]))
+    o.append(grid(cx - 64, G - 154, 10, 1, 7, 8, 13.4, 0, 'rec'))
+    o.append(rect(cx - 78, G - 188, 156, 5, 'trim'))
+    o.append(merlons(cx - 76, cx + 76, G - 188, 5, 4, 4.5))
+    for tx in (cx - 64, cx + 64):
+        o.append(small_dome(tx, G - 193, 22))
+    # drum with pilasters, lotus band, then the ribbed stone dome
+    o.append(rect(cx - 46, G - 214, 92, 26, 'b'))
+    o.append(lines([(cx - 46 + k * 9.2, G - 214, cx - 46 + k * 9.2, G - 188) for k in range(1, 10)]))
+    o.append(grid(cx - 41.5, G - 208, 9, 1, 4.4, 9, 9.2, 0, 'rec'))
+    o.append(rect(cx - 50, G - 219, 100, 5, 'trim'))
+    o.append(path(''.join(f'M{f(cx - 48 + k * 8)} {G - 219}q4 -7 8 0' for k in range(12)), 'trim'))
+    dome = f'M{cx - 46} {G - 222}C{cx - 52} {G - 252} {cx - 30} {G - 276} {cx} {G - 280}C{cx + 30} {G - 276} {cx + 52} {G - 252} {cx + 46} {G - 222}Z'
+    o.append(path(dome, 'dome'))
+    o.append(path(''.join(f'M{f(cx + k * 46)} {G - 222}C{f(cx + k * 50)} {G - 250} {f(cx + k * 26)} {G - 274} {cx} {G - 280}' for k in (-.66, -.33, .33, .66)), 'ln'))
+    o.append(lines([(cx, G - 280, cx, G - 222)]))
+    # lantern and the Ashoka lion capital
+    o.append(rect(cx - 7, G - 290, 14, 10, 'b'))
+    o.append(rect(cx - 10, G - 293, 20, 4, 'gold'))
+    o.append(path(f'M{cx - 9} {G - 293}V{G - 300}Q{cx - 9} {G - 305} {cx - 5} {G - 305}Q{cx - 3} {G - 309} {cx} {G - 309}Q{cx + 3} {G - 309} {cx + 5} {G - 305}Q{cx + 9} {G - 305} {cx + 9} {G - 300}V{G - 293}Z', 'gold'))
     return o
 
 
@@ -344,7 +374,7 @@ def svg_parts():
             (-300, 26, 24, False), (-158, 22, 22, True), (148, 20, 20, False), (438, 24, 22, True),
             (1188, 20, 20, True), (1898, 22, 22, False), (-60, 16, 16, False), (64, 16, 16, True)]),
     ])
-    cx, cy = 720, 132
+    cx, cy = 848, 150
     rays = ''.join(
         f'M{cx} {cy}L{f(cx + 900 * math.cos(2 * math.pi * i / 28))} {f(cy + 900 * math.sin(2 * math.pi * i / 28))}'
         f'L{f(cx + 900 * math.cos(2 * math.pi * i / 28 + math.pi / 28))} {f(cy + 900 * math.sin(2 * math.pi * i / 28 + math.pi / 28))}Z'
