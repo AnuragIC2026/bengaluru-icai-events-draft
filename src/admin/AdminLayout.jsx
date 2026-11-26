@@ -61,7 +61,7 @@ export default function AdminLayout() {
           </span>
           <span>
             <b>Event admin</b>
-            <small>Bengaluru Branch</small>
+            <small>ICAI Bengaluru Branch (SIRC)</small>
           </span>
         </div>
         <nav>

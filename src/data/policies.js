@@ -3,8 +3,8 @@ export const POLICIES = {
  "refund": {
   "title": "Refund policy",
   "body": [
-   "No refund of registration fee will be made by BANGALORE BRANCH of SIRC of ICAI, once the registration application is satisfactorily accepted.",
-   "It is the responsibility of the Member to understand the eligibility requirements of BANGALORE BRANCH of SIRC of ICAI before deciding to register for the ONLINE REGISTARTION. If the Member registers and then determines that he/she is ineligible for admission to the Program/Event of his/her choice, no application registration-fee refund will be made.",
+   "No refund of registration fee will be made by ICAI Bengaluru Branch (SIRC), once the registration application is satisfactorily accepted.",
+   "It is the responsibility of the Member to understand the eligibility requirements of ICAI Bengaluru Branch (SIRC) before deciding to register for the ONLINE REGISTARTION. If the Member registers and then determines that he/she is ineligible for admission to the Program/Event of his/her choice, no application registration-fee refund will be made.",
    "Course fee shall not be refunded once the Member registered to the Event.",
    "All policies and procedures shall be as laid down by Board of Studies of the Institute of Chartered Accountants of India."
   ]
@@ -12,7 +12,7 @@ export const POLICIES = {
  "cancellation": {
   "title": "Cancellation policy",
   "body": [
-   "Candidates need to ensure that the information submitted by them is correct and true in all respects. In case any information is found to be incorrect or false at a later date, BANGALORE BRANCH of SIRC of ICAI shall have the right to cancel the application registration. In the event of the cancellation of the application registration due to furnishing of incorrect/false information, the fee paid by the candidate will not be refunded except as decided by the management of BANGALORE BRANCH of SIRC of ICAI."
+   "Candidates need to ensure that the information submitted by them is correct and true in all respects. In case any information is found to be incorrect or false at a later date, ICAI Bengaluru Branch (SIRC) shall have the right to cancel the application registration. In the event of the cancellation of the application registration due to furnishing of incorrect/false information, the fee paid by the candidate will not be refunded except as decided by the management of ICAI Bengaluru Branch (SIRC)."
   ]
  },
  "privacy": {
@@ -43,11 +43,11 @@ export const POLICIES = {
    "Please read these terms carefully before using the online payment facility. Using the online payment facility on this website indicates that you accept these terms. If you do not accept these terms do not use this facility.",
    "All payments are subject to the following conditions:",
    "The description of courses are specific to you (i.e. Programme Name, start and end date etc.) when you log in with your unique password. Normally payment is required in advance (i.e. before you commence your programme).",
-   "All Fees quoted are in Indian Rupees. The Bangalore Branch of SIRC of ICAI reserves the right to change the fees at any time.",
-   "Your payment will normally reach The Bangalore Branch of SIRC of ICAI account to which you are making a payment within two working days.",
-   "We cannot accept liability for a payment not reaching the correct The Bangalore Branch of SIRC of ICAI account due to you quoting an incorrect account number or incorrect personal details. Neither can we accept liability if payment is refused or declined by the credit/debit card supplier for any reason.",
-   "If the card supplier declines payment The Bangalore Branch of SIRC of ICAI is under no obligation to bring this fact to your attention. You should check with your bank/credit/debit card supplier that payment has been deducted from your account.",
-   "In no event will The Bangalore Branch of SIRC of ICAI be liable for any damages whatsoever arising out of the use, inability to use, or the results of use of this site, any websites linked to this site, or the materials or information contained at any or all such sites, whether based on warranty, contract, tort or any other legal theory and whether or not advised of the possibility of such damages."
+   "All Fees quoted are in Indian Rupees. ICAI Bengaluru Branch (SIRC) reserves the right to change the fees at any time.",
+   "Your payment will normally reach the ICAI Bengaluru Branch (SIRC) account to which you are making a payment within two working days.",
+   "We cannot accept liability for a payment not reaching the correct ICAI Bengaluru Branch (SIRC) account due to you quoting an incorrect account number or incorrect personal details. Neither can we accept liability if payment is refused or declined by the credit/debit card supplier for any reason.",
+   "If the card supplier declines payment ICAI Bengaluru Branch (SIRC) is under no obligation to bring this fact to your attention. You should check with your bank/credit/debit card supplier that payment has been deducted from your account.",
+   "In no event will ICAI Bengaluru Branch (SIRC) be liable for any damages whatsoever arising out of the use, inability to use, or the results of use of this site, any websites linked to this site, or the materials or information contained at any or all such sites, whether based on warranty, contract, tort or any other legal theory and whether or not advised of the possibility of such damages."
   ]
  }
 }

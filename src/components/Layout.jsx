@@ -30,12 +30,12 @@ export function Header() {
       <div className="wrap">
         <div className="brand">
           <a href="https://bangaloreicai.org" className="brand-logo" title="Go to bangaloreicai.org">
-            <img src={logo} alt="The Institute of Chartered Accountants of India, go to the Bengaluru Branch website" width="128" height="60" />
+            <img src={logo} alt="The Institute of Chartered Accountants of India, go to the ICAI Bengaluru Branch (SIRC) website" width="128" height="60" />
           </a>
           <span className="divider" />
           <Link to="/" className="brand-text" aria-label="Event registration home">
             <strong>Event Registration</strong>
-            <small>Bengaluru Branch of SIRC of ICAI</small>
+            <small>ICAI Bengaluru Branch (SIRC)</small>
           </Link>
         </div>
         <nav className="head-links" aria-label="Main">
@@ -76,7 +76,7 @@ export function Footer() {
       </div>
       <div className="wrap foot-grid">
         <div>
-          <h4>Bengaluru Branch of SIRC of ICAI</h4>
+          <h4>ICAI Bengaluru Branch (SIRC)</h4>
           <p>ICAI Bhawan, #16/O, Millers Tank Bed Area, Vasanth Nagar, Bengaluru 560052</p>
           <p style={{ marginTop: 8 }}>
             <a href="tel:+918043944868">080 4394 4868</a>
@@ -114,7 +114,7 @@ export function Footer() {
       </div>
       <div className="foot-base">
         <div className="wrap">
-          <span>© 2026 Bengaluru Branch of SIRC of ICAI</span>
+          <span>© 2026 ICAI Bengaluru Branch (SIRC)</span>
           <a href="https://bangaloreicai.org" target="_blank" rel="noreferrer">
             bangaloreicai.org
           </a>

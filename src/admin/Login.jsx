@@ -42,7 +42,7 @@ export default function Login() {
         <img className="logo" src={logo} alt="The Institute of Chartered Accountants of India" />
         <h1>Event admin</h1>
         <p className="muted" style={{ marginBottom: 20 }}>
-          Bengaluru Branch of SIRC of ICAI
+          ICAI Bengaluru Branch (SIRC)
         </p>
         <div style={{ display: 'grid', gap: 14 }}>
           <Field label="Email" id="l-email">

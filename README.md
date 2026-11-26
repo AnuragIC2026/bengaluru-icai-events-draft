@@ -1,6 +1,6 @@
 # Bengaluru ICAI Event Registration
 
-A separate event registration portal for the Bengaluru Branch of SIRC of ICAI, meant to run on its own subdomain.
+A separate event registration portal for the ICAI Bengaluru Branch (SIRC), meant to run on its own subdomain.
 
 It runs in two ways:
 - **Browser test version** (default): everything is saved in the browser, so it runs free on GitHub Pages with no server.

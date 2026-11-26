@@ -151,7 +151,7 @@ export default function EventList() {
     <>
       <section className="hero">
         <div className="wrap hero-text">
-          <p className="hero-kicker">Bengaluru Branch of SIRC of ICAI</p>
+          <p className="hero-kicker">ICAI Bengaluru Branch (SIRC)</p>
           <h1>Register for branch events</h1>
           <p className="hero-sub">Seminars, study circles and SICASA events. Book for yourself or your whole team in one go.</p>
         </div>

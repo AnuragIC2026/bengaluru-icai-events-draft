@@ -9,7 +9,10 @@ const SAMPLES = Object.fromEntries(
     url,
   ]),
 )
-const SAMPLE_FLAG = 'blricai-events:v1:samples-loaded'
+// Bump the version when the sample posters change. Browsers that saw an older set get the new
+// posters, but images an admin uploaded (saved as data URLs) and samples they removed stay as they are.
+const SAMPLE_FLAG = 'blricai-events:v2:samples-loaded'
+const OLD_FLAGS = ['blricai-events:v1:samples-loaded']
 
 let seeding = null
 function seedSamples() {
@@ -22,9 +25,24 @@ function seedSamples() {
       done = memory.size > 0
     }
     if (done) return
+    let seenBefore = false
+    try {
+      seenBefore = OLD_FLAGS.some((k) => localStorage.getItem(k) === '1')
+    } catch {
+      /* treat as a first visit */
+    }
     for (const [id, url] of Object.entries(SAMPLES)) {
-      memory.set(id, url)
-      await tx('readwrite', (s) => s.put(url, id))
+      let current
+      try {
+        current = await tx('readonly', (s) => s.get(id))
+      } catch {
+        current = memory.get(id)
+      }
+      const isOldSample = typeof current === 'string' && !current.startsWith('data:')
+      if (isOldSample || (!seenBefore && current == null)) {
+        memory.set(id, url)
+        await tx('readwrite', (s) => s.put(url, id))
+      }
     }
     try {
       localStorage.setItem(SAMPLE_FLAG, '1')

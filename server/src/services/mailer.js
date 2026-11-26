@@ -35,7 +35,7 @@ export function createMailer(cfg, { transport } = {}) {
   function layout(title, body) {
     return `<!doctype html><html><body style="margin:0;background:#F6F9FD;font-family:Arial,sans-serif;color:#14203D">
 <div style="max-width:600px;margin:0 auto;padding:24px">
-<div style="background:#092D77;color:#fff;border-radius:14px 14px 0 0;padding:18px 22px"><div style="font-size:13px;opacity:.85">Bengaluru Branch of SIRC of ICAI</div><div style="font-size:20px;font-weight:bold">${esc(title)}</div></div>
+<div style="background:#092D77;color:#fff;border-radius:14px 14px 0 0;padding:18px 22px"><div style="font-size:13px;opacity:.85">ICAI Bengaluru Branch (SIRC)</div><div style="font-size:20px;font-weight:bold">${esc(title)}</div></div>
 <div style="background:#fff;border:1px solid #DDE4EF;border-top:0;border-radius:0 0 14px 14px;padding:22px">${body}</div>
 <p style="font-size:12px;color:#56627A;text-align:center;margin-top:14px">This is an automatic email from the branch event registration portal.</p>
 </div></body></html>`

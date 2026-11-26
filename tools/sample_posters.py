@@ -98,7 +98,7 @@ h1{{font-family:B,sans-serif;font-weight:800;font-size:{size}px;line-height:1.02
 <div class="dots"></div><div class="sun"></div><div class="ground"></div><div class="frame"></div>
 <div class="tag">Sample image</div>
 <div class="wrap">
-  <div class="org">Bengaluru Branch of SIRC of ICAI{' &nbsp;|&nbsp; SICASA' if sicasa else ''}</div>
+  <div class="org">ICAI Bengaluru Branch (SIRC){' &nbsp;|&nbsp; SICASA' if sicasa else ''}</div>
   <div class="kind">{html.escape(who)}</div>
   <h1>{html.escape(title)}</h1>
   {f'<p class="topic">{html.escape(topic)}</p>' if topic else ''}
