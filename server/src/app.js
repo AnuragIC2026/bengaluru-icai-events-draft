@@ -385,7 +385,7 @@ export function createApp({ cfg, db, mailer, log = console }) {
 
   app.get(
     '/api/admin/events',
-    auth('admin', 'accounts'),
+    auth('admin', 'manager'),
     wrap(async (_req, res) => {
       res.json((await db.events.list()).map(publicEvent))
     }),
@@ -487,7 +487,7 @@ export function createApp({ cfg, db, mailer, log = console }) {
 
   app.get(
     '/api/admin/bookings',
-    auth('admin', 'accounts'),
+    auth('admin', 'manager'),
     wrap(async (_req, res) => {
       res.json(await db.bookings.list())
     }),

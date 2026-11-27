@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { FileSpreadsheet } from 'lucide-react'
+import { FileSpreadsheet, FileText } from 'lucide-react'
 import { listInterest } from '../lib/data.js'
 import { fmtDateTime } from '../lib/format.js'
 import { exportInterest } from '../lib/excel.js'
@@ -22,6 +22,9 @@ function Inner() {
           <p>People who missed a closed or full event and asked to hear if it runs again.</p>
         </div>
         <div className="actions">
+          <button className="btn btn-soft" onClick={() => import('../lib/pdf.js').then((m) => m.exportInterestPdf(list))} disabled={!list.length}>
+            <FileText size={18} /> Download PDF
+          </button>
           <button className="btn btn-primary" onClick={() => exportInterest(list)} disabled={!list.length}>
             <FileSpreadsheet size={18} /> Download Excel
           </button>

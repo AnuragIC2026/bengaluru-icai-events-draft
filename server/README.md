@@ -16,7 +16,7 @@ The backend for the event registration portal: Node, Express and MongoDB.
   - `PAYMENT_MODE=eazypay` sends people to ICICI Eazypay and checks the bank's reply with its SHA-512 hash before marking anything paid. Replies that fail the check, or show a different amount, never confirm a booking.
 - **Emails:** a receipt to the billing email and a confirmation to each participant, sent through any SMTP account. Switched off until `EMAIL_ENABLED=true`.
 - **Admin:**
-  - Admin and Accounts roles, with logins signed as 8 hour tokens.
+  - Admin and Manager roles, with logins signed as 8 hour tokens. Manager sees registrations and failed registrations only.
   - Passwords are hashed with bcrypt.
   - Logins, bookings and searches are rate limited.
 - **Images** are checked, resized to 1,400 pixels and re-encoded as WebP, which also strips hidden data such as GPS tags.
@@ -80,9 +80,9 @@ Set `FRONTEND_URL` and `CORS_ORIGINS` in the server's `.env` to the front end's 
 | POST | /api/payments/test/:id | person with the link, test mode only |
 | POST | /api/payments/eazypay/return | ICICI Eazypay |
 | POST | /api/admin/login | anyone |
-| GET | /api/admin/events | admin, accounts |
+| GET | /api/admin/events | admin, manager |
 | POST, PUT, DELETE | /api/admin/events | admin |
 | POST, DELETE | /api/admin/events/:id/image | admin |
-| GET | /api/admin/bookings | admin, accounts |
+| GET | /api/admin/bookings | admin, manager |
 | GET | /api/admin/interest | admin |
 | GET, PUT | /api/admin/settings | admin |

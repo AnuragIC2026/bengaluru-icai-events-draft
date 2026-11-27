@@ -34,7 +34,7 @@ Built by IC Solutions.
 - A retro poster style picture of Bengaluru heads the event list and event pages. In the middle is a real photo of Vidhana Soudha, recoloured into an orange evening. Around it are drawn Bangalore Palace, the Lalbagh Glass House, a gopuram, UB City and the CBD towers, a Namma Metro train, tiled roof houses and rain trees. The drawn parts and the photo's size and place are set in `tools/skyline.py`, so edit that file and rerun it to change the picture.
 
 **Admin** (`#/admin`, not linked from the public pages. On the live setup it moves to its own subdomain.)
-- **Two roles.** Admin sees everything. Accounts sees only the dashboard and registrations.
+- **Two roles.** Admin sees everything. Manager sees only Registrations and Failed registrations (no dashboard, events, interest list or settings).
 - **Dashboard:** open events, paid bookings, participants and amount collected, with a link to failed or not completed bookings.
 - **Events:** add, edit, copy, pause, close or delete. Delete only works when there are no bookings. Upcoming and Past tabs follow the same rule as the public list.
 - **Event image:** upload by clicking or by dropping a file, with a preview, Replace and Remove. JPG, PNG or WebP up to 8 MB, scaled down to 1,400 pixels on the longest side. Copying an event copies its image. The events table shows a small thumbnail.
@@ -50,11 +50,12 @@ Built by IC Solutions.
   - the form shows a live worked example and blocks impossible values
 - **Registrations:**
   - filters and search
-  - **failed and not completed registrations** are kept with all their form details, like on the old portal. "Failed" means the bank said no, with the bank's response code and reason. "Not completed" means the person reached the payment step and left, or the bank never sent a final reply, 30 minutes after booking. The dashboard links straight to them.
+  - **Failed registrations** has its own menu item. Failed and not completed bookings are kept with all their form details, like on the old portal. "Failed" means the bank said no, with the bank's response code and reason. "Not completed" means the person reached the payment step and left, or the bank never sent a final reply, 30 minutes after booking. The dashboard links straight to them.
   - for every bank reply: payment mode, bank reference, response code and message, amount from the bank and time. Replies that fail the security check are recorded too, without changing the booking.
   - a detail panel for each booking
   - Excel download with two sheets, Bookings and Participants. Bookings includes the status, the reason a booking was not paid, the bank reply details, GSTIN and PAN.
-- **Interest list,** with Excel download.
+  - PDF download of the same list, landscape A4, with the branch name and logo on top, the filters used, totals, and one row per booking with its participants, billing details, amount and payment status.
+- **Interest list,** with Excel and PDF download.
 - **Settings:** GST rate, booking number prefix and help desk contacts. Also has a reset for the test data.
 
 Test logins are shown on the login page.
@@ -62,7 +63,7 @@ Test logins are shown on the login page.
 ## Brand
 
 - Font: Manrope, the closest free match to the lettering in the branch logo on bengaluru.icai.org (the logo is an image, so its exact font is not known).
-- Colours from the logo: blue #2C3A92 for buttons, headings and links, orange #B3630D as the accent. Small orange text uses #A65A0A so it stays readable.
+- Colours from the logo: blue #2C3A92 for buttons, headings and links, orange #B3630D as the accent. The branch name leads the header in orange, with "Event Registration" under it in blue, like the logo. Small orange text uses #A65A0A so it stays readable.
 
 ## Naming
 
@@ -116,6 +117,7 @@ src/
   lib/bookingStatus.js  paid, failed, not completed, and the Eazypay response code list
   lib/validate.js       field rules and states list
   lib/excel.js          Excel exports
+  lib/pdf.js            PDF exports (loaded only when used; fonts in assets/fonts/pdf)
   pages/                public pages
   admin/                admin pages
 ```

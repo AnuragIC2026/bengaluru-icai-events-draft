@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Search, FileSpreadsheet, X } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { Search, FileSpreadsheet, FileText, X } from 'lucide-react'
 import { listBookings, listEvents } from '../lib/data.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
 import { rupees, fmtDateTime } from '../lib/format.js'
@@ -160,13 +160,17 @@ function Drawer({ b, onClose }) {
   )
 }
 
-export default function Registrations() {
+// failedOnly: the "Failed registrations" page. Same list, limited to bookings that were not paid.
+export default function Registrations({ failedOnly = false }) {
   const [bookings, setBookings] = useState(null)
   const [events, setEvents] = useState([])
   const [q, setQ] = useState('')
   const [ev, setEv] = useState('')
   const [params, setParams] = useSearchParams()
-  const [st, setStRaw] = useState(params.get('status') || '')
+  const [st, setStRaw] = useState(params.get('status') || (failedOnly ? 'unpaid' : ''))
+  useEffect(() => {
+    setStRaw(params.get('status') || (failedOnly ? 'unpaid' : ''))
+  }, [failedOnly]) // eslint-disable-line react-hooks/exhaustive-deps
   const setSt = (v) => {
     setStRaw(v)
     setParams(v ? { status: v } : {}, { replace: true })
@@ -176,10 +180,10 @@ export default function Registrations() {
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
-    document.title = 'Registrations | Event admin'
+    document.title = `${failedOnly ? 'Failed registrations' : 'Registrations'} | Event admin`
     listBookings().then(setBookings)
     listEvents().then(setEvents)
-  }, [])
+  }, [failedOnly])
 
   const rows = useMemo(() => {
     const term = q.trim().toLowerCase()
@@ -200,35 +204,45 @@ export default function Registrations() {
     return { n: paid.length, unpaid, people: paid.reduce((s, b) => s + b.participants.length, 0), amt: paid.reduce((s, b) => s + b.price.total, 0) }
   }, [rows])
 
-  const doExport = async () => {
-    setBusy(true)
+  const STATUS_FILTER = { paid: 'Paid', unpaid: 'Failed or not completed', failed: 'Failed', notCompleted: 'Not completed', pending: 'In progress' }
+  const doExport = async (kind) => {
+    setBusy(kind)
     const evName = ev ? events.find((e) => String(e.id) === ev)?.title : ''
-    await exportBookings(rows, evName)
-    setBusy(false)
+    try {
+      if (kind === 'pdf') {
+        const { exportBookingsPdf } = await import('../lib/pdf.js')
+        await exportBookingsPdf(rows, { title: failedOnly ? 'Failed registrations' : 'Registrations', eventName: evName, statusLabel: STATUS_FILTER[st] || '', failedOnly })
+      } else await exportBookings(rows, evName, failedOnly ? 'failed-registrations' : 'registrations')
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
     <>
       <div className="page-head">
         <div>
-          <h1>Registrations</h1>
+          <h1>{failedOnly ? 'Failed registrations' : 'Registrations'}</h1>
           <p>
             {['unpaid', 'failed', 'notCompleted'].includes(st)
               ? `${rows.length} ${rows.length === 1 ? 'booking' : 'bookings'} not paid in this view. Each one keeps the full form details and the bank's reply.`
               : `${totals.n} paid ${totals.n === 1 ? 'booking' : 'bookings'}, ${totals.people} participants, ${rupees(totals.amt)} collected in this view.`}
-            {totals.unpaid > 0 && st !== 'unpaid' && (
+            {!failedOnly && totals.unpaid > 0 && st !== 'unpaid' && (
               <>
                 {' '}
-                <button className="link-btn tone-red" onClick={() => setSt('unpaid')}>
+                <Link className="tone-red" to="/admin/failed">
                   {totals.unpaid} failed or not completed
-                </button>
+                </Link>
               </>
             )}
           </p>
         </div>
         <div className="actions">
-          <button className="btn btn-primary" onClick={doExport} disabled={!rows.length || busy}>
-            <FileSpreadsheet size={18} /> {busy ? 'Preparing...' : 'Download Excel'}
+          <button className="btn btn-soft" onClick={() => doExport('pdf')} disabled={!rows.length || !!busy}>
+            <FileText size={18} /> {busy === 'pdf' ? 'Preparing...' : 'Download PDF'}
+          </button>
+          <button className="btn btn-primary" onClick={() => doExport('xlsx')} disabled={!rows.length || !!busy}>
+            <FileSpreadsheet size={18} /> {busy === 'xlsx' ? 'Preparing...' : 'Download Excel'}
           </button>
         </div>
       </div>
@@ -253,12 +267,12 @@ export default function Registrations() {
           <label>
             <span className="sr-only">Payment status</span>
             <select value={st} onChange={(e) => setSt(e.target.value)}>
-              <option value="">Any status</option>
-              <option value="paid">Paid</option>
+              {!failedOnly && <option value="">Any status</option>}
+              {!failedOnly && <option value="paid">Paid</option>}
               <option value="unpaid">Failed or not completed</option>
               <option value="failed">Failed</option>
               <option value="notCompleted">Not completed</option>
-              <option value="pending">In progress</option>
+              {!failedOnly && <option value="pending">In progress</option>}
             </select>
           </label>
           <label>
@@ -296,7 +310,7 @@ export default function Registrations() {
               {bookings && !rows.length && (
                 <tr>
                   <td colSpan={6} className="empty-row">
-                    {bookings.length ? 'No bookings match these filters.' : 'No bookings yet. Book an event on the public portal and it will show up here.'}
+                    {failedOnly ? 'No failed or unfinished registrations here.' : bookings.length ? 'No bookings match these filters.' : 'No bookings yet. Book an event on the public portal and it will show up here.'}
                   </td>
                 </tr>
               )}

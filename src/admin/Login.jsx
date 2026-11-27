@@ -29,7 +29,9 @@ export default function Login() {
     setBusy(false)
     if (!u) return setErr('Email or password is wrong.')
     const from = loc.state?.from
-    nav(u.role === 'accounts' && from?.startsWith('/admin/events') ? '/admin/registrations' : from || '/admin', { replace: true })
+    // A manager only has the two registration pages, so send them there unless they were already headed to one.
+    const managerOk = from?.startsWith('/admin/registrations') || from?.startsWith('/admin/failed')
+    nav(u.role === 'manager' ? (managerOk ? from : '/admin/registrations') : from || '/admin', { replace: true })
   }
   const fill = (u) => {
     setEmail(u.email)
@@ -65,7 +67,7 @@ export default function Login() {
           <b>Test logins</b>
           {DEMO_USERS.map((u) => (
             <div key={u.email} style={{ marginTop: 4 }}>
-              {u.role === 'admin' ? 'Admin' : 'Accounts'}: <code>{u.email}</code> / <code>{u.password}</code>{' '}
+              {u.role === 'admin' ? 'Admin' : 'Manager'}: <code>{u.email}</code> / <code>{u.password}</code>{' '}
               <button type="button" onClick={() => fill(u)}>
                 Use
               </button>

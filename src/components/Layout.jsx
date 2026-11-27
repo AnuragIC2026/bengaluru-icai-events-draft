@@ -34,8 +34,8 @@ export function Header() {
           </a>
           <span className="divider" />
           <Link to="/" className="brand-text" aria-label="Event registration home">
-            <strong>Event Registration</strong>
-            <small>ICAI Bengaluru Branch (SIRC)</small>
+            <strong>ICAI Bengaluru Branch (SIRC)</strong>
+            <small>Event Registration</small>
           </Link>
         </div>
         <nav className="head-links" aria-label="Main">

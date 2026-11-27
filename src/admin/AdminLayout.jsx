@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Navigate, Outlet, useLocation, useNavigate, useOutletContext, Link } from 'react-router-dom'
-import { LayoutDashboard, CalendarDays, Receipt, BellRing, Settings as SettingsIcon, LogOut, Menu, ExternalLink, ShieldAlert } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, Receipt, ReceiptText, BellRing, Settings as SettingsIcon, LogOut, Menu, ExternalLink, ShieldAlert } from 'lucide-react'
 import logo from '../assets/icai-logo.png'
 import { currentUser, logout } from '../lib/data.js'
 
 const NAV = [
-  { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin', 'accounts'], end: true },
+  { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin'], end: true },
   { to: '/admin/events', label: 'Events', icon: CalendarDays, roles: ['admin'] },
-  { to: '/admin/registrations', label: 'Registrations', icon: Receipt, roles: ['admin', 'accounts'] },
+  { to: '/admin/registrations', label: 'Registrations', icon: Receipt, roles: ['admin', 'manager'] },
+  { to: '/admin/failed', label: 'Failed registrations', icon: ReceiptText, roles: ['admin', 'manager'] },
   { to: '/admin/interest', label: 'Interest list', icon: BellRing, roles: ['admin'] },
   { to: '/admin/settings', label: 'Settings', icon: SettingsIcon, roles: ['admin'] },
 ]
 
-export const ROLE_LABEL = { admin: 'Admin', accounts: 'Accounts' }
+export const ROLE_LABEL = { admin: 'Admin', manager: 'Manager' }
 
 export function useAdmin() {
   return useOutletContext()
@@ -25,7 +26,7 @@ export function RequireRole({ role, children }) {
       <div className="denied">
         <ShieldAlert size={40} color="#A65A0A" />
         <h1 style={{ fontSize: 24, margin: '12px 0 6px' }}>This page is for admins</h1>
-        <p className="muted">Your login can see registrations and payments only.</p>
+        <p className="muted">Your login can see registrations and failed registrations only.</p>
         <Link className="btn btn-primary" to="/admin/registrations" style={{ marginTop: 18 }}>
           Go to registrations
         </Link>
@@ -60,8 +61,8 @@ export default function AdminLayout() {
             <img src={logo} alt="ICAI" />
           </span>
           <span>
-            <b>Event admin</b>
-            <small>ICAI Bengaluru Branch (SIRC)</small>
+            <b>ICAI Bengaluru Branch (SIRC)</b>
+            <small>Event admin</small>
           </span>
         </div>
         <nav>
@@ -92,7 +93,7 @@ export default function AdminLayout() {
           <button className="icon-btn" onClick={() => setOpen(true)} aria-label="Open menu">
             <Menu size={20} />
           </button>
-          <b>Event admin</b>
+          <b>ICAI Bengaluru Branch (SIRC)</b>
         </div>
         <div className="admin-in">
           <Outlet context={{ user }} />

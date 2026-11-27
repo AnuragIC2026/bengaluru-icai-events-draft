@@ -44,7 +44,8 @@ export default function App() {
             <Route path="events" element={<AdminEvents />} />
             <Route path="events/new" element={<EventEditor />} />
             <Route path="events/:id" element={<EventEditor />} />
-            <Route path="registrations" element={<Registrations />} />
+            <Route path="registrations" element={<Registrations key="all" />} />
+            <Route path="failed" element={<Registrations failedOnly key="failed" />} />
             <Route path="interest" element={<Interest />} />
             <Route path="settings" element={<Settings />} />
           </Route>

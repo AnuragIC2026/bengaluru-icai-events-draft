@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { CalendarDays, Receipt, Users, IndianRupee } from 'lucide-react'
 import { listEvents, listBookings } from '../lib/data.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
@@ -23,8 +23,13 @@ export function SeatBar({ e }) {
   )
 }
 
+// Only admins have a dashboard. A manager lands on registrations.
 export default function Dashboard() {
   const { user } = useAdmin()
+  return user.role === 'admin' ? <AdminDashboard user={user} /> : <Navigate to="/admin/registrations" replace />
+}
+
+function AdminDashboard({ user }) {
   const [events, setEvents] = useState([])
   const [bookings, setBookings] = useState([])
   useEffect(() => {
@@ -75,7 +80,7 @@ export default function Dashboard() {
           </small>
           <strong>{s.paid}</strong>
           {s.failed ? (
-            <Link className="tone-red" to="/admin/registrations?status=unpaid">
+            <Link className="tone-red" to="/admin/failed">
               {s.failed} failed or not completed
             </Link>
           ) : (

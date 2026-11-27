@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS = {
 // Demo logins only. The real build will use hashed passwords on the server.
 export const DEMO_USERS = [
   { email: 'admin@demo.in', password: 'admin123', name: 'Branch admin', role: 'admin' },
-  { email: 'accounts@demo.in', password: 'accounts123', name: 'Accounts team', role: 'accounts' },
+  { email: 'manager@demo.in', password: 'manager123', name: 'Registrations manager', role: 'manager' },
 ]
 
 const memory = {}
@@ -256,7 +256,9 @@ export async function login(email, password) {
 }
 export function currentUser() {
   try {
-    return JSON.parse(sessionStorage.getItem(NS + 'session')) || null
+    const u = JSON.parse(sessionStorage.getItem(NS + 'session')) || null
+    // the Accounts role is now called Manager
+    return u && u.role === 'accounts' ? { ...u, role: 'manager' } : u
   } catch {
     return memory.session || null
   }

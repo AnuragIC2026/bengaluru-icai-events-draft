@@ -7,7 +7,7 @@ const head = (labels) => labels.map((value) => ({ value, fontWeight: 'bold' }))
 const safeName = (s) => (s || 'all-events').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase().slice(0, 40)
 
 // Two sheets: one row per booking, and one row per participant.
-export async function exportBookings(bookings, eventName) {
+export async function exportBookings(bookings, eventName, prefix = 'registrations') {
   const { default: writeExcelFile } = await import('write-excel-file/browser')
   const b1 = [
     head(['Booking no.', 'Booked on', 'Event', 'Category', 'Participants', 'Fee', 'Discount', 'Taxable', 'GST', 'Total', 'Status', 'Reason not paid', 'Gateway', 'Payment mode', 'Bank reference', 'Bank response', 'Amount from bank', 'Reply received', 'Firm', 'Address', 'City', 'Pincode', 'State', 'Contact number', 'Email', 'GSTIN', 'PAN']),
@@ -51,7 +51,7 @@ export async function exportBookings(bookings, eventName) {
   await writeExcelFile([
     { data: b1, sheet: 'Bookings', columns: widths(28, [16, 20, 36, 12, 12, 12, 12, 12, 12, 14, 30, 16, 14, 18, 26, 14, 20]), stickyRowsCount: 1 },
     { data: b2, sheet: 'Participants', columns: widths(10, [16, 36, 10, 12, 22, 26, 10, 30, 14, 30]), stickyRowsCount: 1 },
-  ]).toFile(`registrations-${safeName(eventName)}.xlsx`)
+  ]).toFile(`${prefix}-${safeName(eventName)}.xlsx`)
 }
 
 export async function exportInterest(rows) {

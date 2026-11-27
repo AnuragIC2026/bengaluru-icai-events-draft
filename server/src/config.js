@@ -47,7 +47,8 @@ export function loadConfig(env = process.env) {
     },
     seedUsers: [
       { email: env.ADMIN_EMAIL, password: env.ADMIN_PASSWORD, name: env.ADMIN_NAME || 'Branch admin', role: 'admin' },
-      { email: env.ACCOUNTS_EMAIL, password: env.ACCOUNTS_PASSWORD, name: env.ACCOUNTS_NAME || 'Accounts team', role: 'accounts' },
+      // Manager: registrations and failed registrations only. MANAGER_*; the older ACCOUNTS_* names still work.
+      { email: env.MANAGER_EMAIL || env.ACCOUNTS_EMAIL, password: env.MANAGER_PASSWORD || env.ACCOUNTS_PASSWORD, name: env.MANAGER_NAME || env.ACCOUNTS_NAME || 'Registrations manager', role: 'manager' },
     ].filter((u) => u.email && u.password),
   }
   return cfg

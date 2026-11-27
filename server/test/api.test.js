@@ -13,7 +13,7 @@ import { createApp } from '../src/app.js'
 import { seed } from '../src/seed.js'
 import { responseHash, decrypt } from '../src/services/eazypay.js'
 
-let app, db, cfg, mailer, adminToken, accountsToken, eventId
+let app, db, cfg, mailer, adminToken, managerToken, eventId
 const quiet = { error() {}, log() {} }
 
 const futureEvent = (over = {}) => ({
@@ -48,8 +48,8 @@ before(async () => {
     PUBLIC_API_URL: 'https://api.example.org',
     ADMIN_EMAIL: 'admin@test.in',
     ADMIN_PASSWORD: 'admin-pass-123',
-    ACCOUNTS_EMAIL: 'accounts@test.in',
-    ACCOUNTS_PASSWORD: 'accounts-pass-123',
+    MANAGER_EMAIL: 'manager@test.in',
+    MANAGER_PASSWORD: 'manager-pass-123',
     PAYMENT_MODE: 'test',
     EAZYPAY_MERCHANT_ID: '123456',
     EAZYPAY_SUB_MERCHANT_ID: '45',
@@ -78,12 +78,14 @@ test('login and roles', async () => {
   const a = await request(app).post('/api/admin/login').send({ email: 'ADMIN@test.in', password: 'admin-pass-123' }).expect(200)
   adminToken = a.body.token
   assert.equal(a.body.user.role, 'admin')
-  const b = await request(app).post('/api/admin/login').send({ email: 'accounts@test.in', password: 'accounts-pass-123' }).expect(200)
-  accountsToken = b.body.token
+  const b = await request(app).post('/api/admin/login').send({ email: 'manager@test.in', password: 'manager-pass-123' }).expect(200)
+  assert.equal(b.body.user.role, 'manager')
+  managerToken = b.body.token
   await request(app).get('/api/admin/bookings').expect(401)
-  await request(app).get('/api/admin/bookings').set('Authorization', `Bearer ${accountsToken}`).expect(200)
-  await request(app).post('/api/admin/events').set('Authorization', `Bearer ${accountsToken}`).send(futureEvent()).expect(403)
-  await request(app).get('/api/admin/settings').set('Authorization', `Bearer ${accountsToken}`).expect(403)
+  await request(app).get('/api/admin/bookings').set('Authorization', `Bearer ${managerToken}`).expect(200)
+  await request(app).post('/api/admin/events').set('Authorization', `Bearer ${managerToken}`).send(futureEvent()).expect(403)
+  await request(app).get('/api/admin/settings').set('Authorization', `Bearer ${managerToken}`).expect(403)
+  await request(app).get('/api/admin/interest').set('Authorization', `Bearer ${managerToken}`).expect(403)
 })
 
 test('admin creates an event with the same checks as the form', async () => {

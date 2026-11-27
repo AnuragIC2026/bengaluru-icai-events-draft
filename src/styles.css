@@ -76,11 +76,12 @@ svg.lucide { flex: none; }
 .brand { display: flex; align-items: center; gap: 18px; min-width: 0; }
 .brand-logo { display: block; flex: none; border-radius: 6px; }
 .brand-text { text-decoration: none; color: inherit; min-width: 0; }
-.brand-text:hover strong { color: var(--blue-2); }
+.brand-text:hover strong { color: var(--saffron-ink); }
 .brand img { height: 60px; width: auto; }
 .brand .divider { width: 1px; height: 44px; background: linear-gradient(var(--line), var(--saffron), var(--line)); }
-.brand strong { font-family: var(--head); font-size: 21px; font-weight: 800; display: block; color: var(--blue); line-height: 1.1; letter-spacing: -0.015em; }
-.brand small { display: block; color: var(--saffron-ink); font-weight: 600; font-size: 14px; line-height: 1.35; margin-top: 2px; }
+/* the branch name leads, in the logo's orange, like the branch logo itself */
+.brand strong { font-family: var(--head); font-size: 22px; font-weight: 800; display: block; color: var(--saffron); line-height: 1.1; letter-spacing: -0.015em; }
+.brand small { display: block; color: var(--blue); font-weight: 700; font-size: 14.5px; line-height: 1.35; margin-top: 3px; }
 .head-links { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .head-link { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--muted); font-weight: 600; font-size: 15px; padding: 10px 12px; border-radius: 10px; }
 .head-link:hover { color: var(--blue); background: var(--paper); }
