@@ -87,5 +87,6 @@ export function verifyResponse(body, cfg) {
     bankRef: String(body['Unique Ref Number'] || ''),
     amount: Number(body['Total Amount'] || body['Transaction Amount'] || 0),
     mode: String(body['Payment Mode'] || ''),
+    txnDate: String(body['Transaction Date'] || ''),
   }
 }

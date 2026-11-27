@@ -10,6 +10,8 @@ export const rules = {
   gender: (v) => (v ? '' : 'Choose one'),
   required: (v) => (String(v || '').trim() ? '' : 'This is required'),
   pincode: (v) => (/^\d{6}$/.test(v.trim()) ? '' : 'Enter the 6 digit pincode'),
+  // PAN: 5 letters, 4 digits, 1 letter, for example ABCDE1234F. Optional.
+  pan: (v) => (!v.trim() || /^[A-Z]{5}\d{4}[A-Z]$/.test(v.trim().toUpperCase()) ? '' : 'Enter a valid PAN, for example ABCDE1234F'),
   gstin: (v) => (!v.trim() || /^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(v.trim().toUpperCase()) ? '' : 'This does not look like a valid GSTIN'),
 }
 

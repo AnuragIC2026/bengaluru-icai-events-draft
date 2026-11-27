@@ -11,8 +11,8 @@ const SAMPLES = Object.fromEntries(
 )
 // Bump the version when the sample posters change. Browsers that saw an older set get the new
 // posters, but images an admin uploaded (saved as data URLs) and samples they removed stay as they are.
-const SAMPLE_FLAG = 'blricai-events:v2:samples-loaded'
-const OLD_FLAGS = ['blricai-events:v1:samples-loaded']
+const SAMPLE_FLAG = 'blricai-events:v3:samples-loaded'
+const OLD_FLAGS = ['blricai-events:v1:samples-loaded', 'blricai-events:v2:samples-loaded']
 
 let seeding = null
 function seedSamples() {

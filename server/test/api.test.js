@@ -105,6 +105,9 @@ test('booking checks the details on the server', async () => {
   assert.ok(r.body.fields['p0.memberId'])
   await request(app).post('/api/bookings').send({ eventId, category: 'student', contact, participants: [person(1)] }).expect(400)
   await request(app).post('/api/bookings').send({ eventId, category: 'member', contact, participants: [1, 2, 3, 4, 5, 6].map((i) => person(i)) }).expect(409)
+  // PAN is optional, but checked when given
+  const badPan = await request(app).post('/api/bookings').send({ eventId, category: 'member', contact: { ...contact, pan: 'ABC12' }, participants: [person(1)] }).expect(400)
+  assert.ok(badPan.body.fields['c.pan'])
 })
 
 test('group discount, test payment, seats and emails', async () => {
@@ -211,12 +214,25 @@ test('Eazypay: payment link, good reply, forged reply, wrong amount', async () =
   const forged = { ...reply({}), RS: 'abc' }
   const f = await request(liveApp).post('/api/payments/eazypay/return').type('form').send(forged).expect(303)
   assert.match(f.headers.location, new RegExp(`#/booking/${booking.id}\\?k=`))
-  assert.equal((await db.bookings.get(booking.id)).status, 'pending')
+  const afterForged = await db.bookings.get(booking.id)
+  assert.equal(afterForged.status, 'pending')
+  assert.match(afterForged.payment.message, /security check/)
   // genuine success
   await request(liveApp).post('/api/payments/eazypay/return').type('form').send(reply({})).expect(303)
   const b = await db.bookings.get(booking.id)
   assert.equal(b.status, 'paid')
   assert.equal(b.payment.ref, '2611251234567')
+  assert.equal(b.payment.mode, 'UPI')
+  assert.equal(b.payment.code, 'E000')
+  assert.equal(b.payment.amount, 590)
+  // declined by the bank: kept as a failed registration with the reason
+  const r3 = await request(liveApp).post('/api/bookings').send({ eventId: e2.id, category: 'member', contact: { ...contact, pan: 'abcde1234f' }, participants: [person(3)] }).expect(201)
+  await request(liveApp).post('/api/payments/eazypay/return').type('form').send(reply({ ReferenceNo: r3.body.booking.id, 'Response Code': 'E0815', 'Unique Ref Number': '2611259999999' })).expect(303)
+  const b3 = await db.bookings.get(r3.body.booking.id)
+  assert.equal(b3.status, 'failed')
+  assert.equal(b3.payment.message, 'Not enough balance')
+  assert.equal(b3.payment.ref, '2611259999999')
+  assert.equal(b3.contact.pan, 'ABCDE1234F')
   // wrong amount on another booking
   const r2 = await request(liveApp).post('/api/bookings').send({ eventId: e2.id, category: 'member', contact, participants: [person(2)] }).expect(201)
   const bad = reply({ ReferenceNo: r2.body.booking.id, 'Total Amount': '1.00', 'Transaction Amount': '1.00' })

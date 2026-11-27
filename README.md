@@ -17,7 +17,7 @@ Built by IC Solutions.
   - one category per booking (member, non-member or student)
   - up to the limit the admin sets
   - only the ID field that fits the category: 6 digit membership number, or a student registration number like SRO0123456
-  - billing details, and a GSTIN that is format checked (hidden for students, since they pay no GST)
+  - billing details, with an optional GSTIN (hidden for students, since they pay no GST) and an optional PAN, both format checked
   - a live summary showing fee, group discount, GST and total
 - Simulated ICICI Eazypay step with success and failure buttons.
 - Booking pass with print and "Add to calendar".
@@ -50,12 +50,19 @@ Built by IC Solutions.
   - the form shows a live worked example and blocks impossible values
 - **Registrations:**
   - filters and search
+  - **failed and not completed registrations** are kept with all their form details, like on the old portal. "Failed" means the bank said no, with the bank's response code and reason. "Not completed" means the person reached the payment step and left, or the bank never sent a final reply, 30 minutes after booking. The dashboard links straight to them.
+  - for every bank reply: payment mode, bank reference, response code and message, amount from the bank and time. Replies that fail the security check are recorded too, without changing the booking.
   - a detail panel for each booking
-  - Excel download with two sheets, Bookings and Participants
+  - Excel download with two sheets, Bookings and Participants. Bookings includes the status, the reason a booking was not paid, the bank reply details, GSTIN and PAN.
 - **Interest list,** with Excel download.
 - **Settings:** GST rate, booking number prefix and help desk contacts. Also has a reset for the test data.
 
 Test logins are shown on the login page.
+
+## Brand
+
+- Font: Manrope, the closest free match to the lettering in the branch logo on bengaluru.icai.org (the logo is an image, so its exact font is not known).
+- Colours from the logo: blue #2C3A92 for buttons, headings and links, orange #B3630D as the accent. Small orange text uses #A65A0A so it stays readable.
 
 ## Naming
 

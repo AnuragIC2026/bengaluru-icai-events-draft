@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Search, FileSpreadsheet, X } from 'lucide-react'
 import { listBookings, listEvents } from '../lib/data.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
 import { rupees, fmtDateTime } from '../lib/format.js'
 import { exportBookings } from '../lib/excel.js'
+import { displayStatus, STATUS_LABELS, isUnpaid, unpaidReason, codeMessage } from '../lib/bookingStatus.js'
 
-const STATUS = { paid: 'Paid', pending: 'Pending', failed: 'Failed' }
 
 function Drawer({ b, onClose }) {
+  const key = displayStatus(b)
+  const pay = b.payment || {}
   useEffect(() => {
     const k = (e) => e.key === 'Escape' && onClose()
     document.addEventListener('keydown', k)
@@ -20,7 +23,7 @@ function Drawer({ b, onClose }) {
         <div className="modal-head">
           <div>
             <h2>{b.id}</h2>
-            <span className={`pill ${b.status}`}>{STATUS[b.status]}</span>
+            <span className={`pill ${key}`}>{STATUS_LABELS[key]}</span>
           </div>
           <button className="icon-btn" onClick={onClose} aria-label="Close" autoFocus>
             <X size={20} />
@@ -49,11 +52,54 @@ function Drawer({ b, onClose }) {
           <dd>
             <b>{rupees(b.price.total)}</b>
           </dd>
-          <dt>Payment</dt>
+        </dl>
+        <h3 style={{ fontSize: 17, margin: '22px 0 6px' }}>Payment</h3>
+        <dl className="kv" style={{ marginTop: 6 }}>
+          <dt>Status</dt>
           <dd>
-            {b.payment ? `${b.payment.method}${b.payment.ref ? `, ref ${b.payment.ref}` : ''}` : 'Not started'}
-            {b.payment?.note && <div className="muted">{b.payment.note}</div>}
+            {STATUS_LABELS[key]}
+            {isUnpaid(key) && <div className="tone-red">{unpaidReason(b, key)}</div>}
           </dd>
+          <dt>Gateway</dt>
+          <dd>{pay.method || (b.price.total ? 'Not reached' : 'Free event')}</dd>
+          {pay.mode && (
+            <>
+              <dt>Payment mode</dt>
+              <dd>{pay.mode}</dd>
+            </>
+          )}
+          {pay.ref && (
+            <>
+              <dt>Bank reference</dt>
+              <dd>{pay.ref}</dd>
+            </>
+          )}
+          {pay.code && (
+            <>
+              <dt>Bank response</dt>
+              <dd>
+                {pay.code}, {codeMessage(pay.code)}
+              </dd>
+            </>
+          )}
+          {pay.amount != null && pay.amount !== '' && (
+            <>
+              <dt>Amount from bank</dt>
+              <dd>{rupees(Number(pay.amount))}</dd>
+            </>
+          )}
+          {pay.at && (
+            <>
+              <dt>Reply received</dt>
+              <dd>{fmtDateTime(pay.at)}</dd>
+            </>
+          )}
+          {pay.note && pay.note !== unpaidReason(b, key) && (
+            <>
+              <dt>Note</dt>
+              <dd>{pay.note}</dd>
+            </>
+          )}
         </dl>
         <h3 style={{ fontSize: 17, margin: '22px 0 6px' }}>Billing</h3>
         <dl className="kv" style={{ marginTop: 6 }}>
@@ -71,6 +117,12 @@ function Drawer({ b, onClose }) {
             <>
               <dt>GSTIN</dt>
               <dd>{b.contact.gstin}</dd>
+            </>
+          )}
+          {b.contact.pan && (
+            <>
+              <dt>PAN</dt>
+              <dd>{b.contact.pan}</dd>
             </>
           )}
         </dl>
@@ -113,7 +165,12 @@ export default function Registrations() {
   const [events, setEvents] = useState([])
   const [q, setQ] = useState('')
   const [ev, setEv] = useState('')
-  const [st, setSt] = useState('')
+  const [params, setParams] = useSearchParams()
+  const [st, setStRaw] = useState(params.get('status') || '')
+  const setSt = (v) => {
+    setStRaw(v)
+    setParams(v ? { status: v } : {}, { replace: true })
+  }
   const [cat, setCat] = useState('')
   const [open, setOpen] = useState(null)
   const [busy, setBusy] = useState(false)
@@ -128,17 +185,19 @@ export default function Registrations() {
     const term = q.trim().toLowerCase()
     return (bookings || []).filter((b) => {
       if (ev && String(b.eventId) !== ev) return false
-      if (st && b.status !== st) return false
+      const key = displayStatus(b)
+      if (st === 'unpaid' ? !isUnpaid(key) : st && key !== st) return false
       if (cat && b.category !== cat) return false
       if (!term) return true
-      const hay = [b.id, b.contact.firm, b.contact.email, b.contact.phone, b.contact.gstin, ...b.participants.flatMap((p) => [p.name, p.email, p.mobile, p.idNumber])].join(' ').toLowerCase()
+      const hay = [b.id, b.contact.firm, b.contact.email, b.contact.phone, b.contact.gstin, b.contact.pan, ...b.participants.flatMap((p) => [p.name, p.email, p.mobile, p.idNumber])].join(' ').toLowerCase()
       return hay.includes(term)
     })
   }, [bookings, q, ev, st, cat])
 
   const totals = useMemo(() => {
     const paid = rows.filter((b) => b.status === 'paid')
-    return { n: paid.length, people: paid.reduce((s, b) => s + b.participants.length, 0), amt: paid.reduce((s, b) => s + b.price.total, 0) }
+    const unpaid = rows.filter((b) => isUnpaid(displayStatus(b))).length
+    return { n: paid.length, unpaid, people: paid.reduce((s, b) => s + b.participants.length, 0), amt: paid.reduce((s, b) => s + b.price.total, 0) }
   }, [rows])
 
   const doExport = async () => {
@@ -154,7 +213,17 @@ export default function Registrations() {
         <div>
           <h1>Registrations</h1>
           <p>
-            {totals.n} paid {totals.n === 1 ? 'booking' : 'bookings'}, {totals.people} participants, {rupees(totals.amt)} collected in this view.
+            {['unpaid', 'failed', 'notCompleted'].includes(st)
+              ? `${rows.length} ${rows.length === 1 ? 'booking' : 'bookings'} not paid in this view. Each one keeps the full form details and the bank's reply.`
+              : `${totals.n} paid ${totals.n === 1 ? 'booking' : 'bookings'}, ${totals.people} participants, ${rupees(totals.amt)} collected in this view.`}
+            {totals.unpaid > 0 && st !== 'unpaid' && (
+              <>
+                {' '}
+                <button className="link-btn tone-red" onClick={() => setSt('unpaid')}>
+                  {totals.unpaid} failed or not completed
+                </button>
+              </>
+            )}
           </p>
         </div>
         <div className="actions">
@@ -168,7 +237,7 @@ export default function Registrations() {
           <label className="search">
             <Search size={18} color="#56627A" />
             <span className="sr-only">Search registrations</span>
-            <input type="search" placeholder="Booking no., name, email, mobile, GSTIN" value={q} onChange={(e) => setQ(e.target.value)} />
+            <input type="search" placeholder="Booking no., name, email, mobile, GSTIN, PAN" value={q} onChange={(e) => setQ(e.target.value)} />
           </label>
           <label>
             <span className="sr-only">Event</span>
@@ -186,8 +255,10 @@ export default function Registrations() {
             <select value={st} onChange={(e) => setSt(e.target.value)}>
               <option value="">Any status</option>
               <option value="paid">Paid</option>
-              <option value="pending">Pending</option>
+              <option value="unpaid">Failed or not completed</option>
               <option value="failed">Failed</option>
+              <option value="notCompleted">Not completed</option>
+              <option value="pending">In progress</option>
             </select>
           </label>
           <label>
@@ -250,7 +321,8 @@ export default function Registrations() {
                     {b.price.discount > 0 && <div className="sub">-{rupees(b.price.discount)} discount</div>}
                   </td>
                   <td className="c-b">
-                    <span className={`pill ${b.status}`}>{STATUS[b.status]}</span>
+                    <span className={`pill ${displayStatus(b)}`}>{STATUS_LABELS[displayStatus(b)]}</span>
+                    {isUnpaid(displayStatus(b)) && <div className="sub reason">{unpaidReason(b)}</div>}
                   </td>
                 </tr>
               ))}

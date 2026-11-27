@@ -5,6 +5,7 @@ import { listEvents, listBookings } from '../lib/data.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
 import { fmtDateShort, rupees, fmtDateTime } from '../lib/format.js'
 import { useAdmin } from './AdminLayout.jsx'
+import { displayStatus, STATUS_LABELS, isUnpaid } from '../lib/bookingStatus.js'
 
 export const STATE_LABEL = { open: 'Open', soon: 'Opens soon', paused: 'Paused', full: 'Full', closed: 'Closed' }
 
@@ -38,7 +39,7 @@ export default function Dashboard() {
       open: events.filter((e) => e.state === 'open').length,
       upcoming: events.filter((e) => !e.ended),
       paid: paid.length,
-      failed: bookings.filter((b) => b.status === 'failed').length,
+      failed: bookings.filter((b) => isUnpaid(displayStatus(b))).length,
       people: paid.reduce((n, b) => n + b.participants.length, 0),
       amount: paid.reduce((n, b) => n + b.price.total, 0),
       gst: paid.reduce((n, b) => n + b.price.gst, 0),
@@ -73,9 +74,13 @@ export default function Dashboard() {
             <Receipt size={15} /> Paid bookings
           </small>
           <strong>{s.paid}</strong>
-          <span className={s.failed ? 'tone-red' : ''}>
-            {s.failed} failed {s.failed === 1 ? 'payment' : 'payments'}
-          </span>
+          {s.failed ? (
+            <Link className="tone-red" to="/admin/registrations?status=unpaid">
+              {s.failed} failed or not completed
+            </Link>
+          ) : (
+            <span>No failed payments</span>
+          )}
         </div>
         <div className="stat">
           <small>
@@ -165,7 +170,7 @@ export default function Dashboard() {
                   </td>
                   <td className="num">{rupees(b.price.total)}</td>
                   <td>
-                    <span className={`pill ${b.status}`}>{b.status === 'paid' ? 'Paid' : b.status === 'failed' ? 'Failed' : 'Pending'}</span>
+                    <span className={`pill ${displayStatus(b)}`}>{STATUS_LABELS[displayStatus(b)]}</span>
                   </td>
                 </tr>
               ))}

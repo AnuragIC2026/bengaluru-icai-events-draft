@@ -16,6 +16,7 @@ import { checkEvent } from '../../src/lib/eventRules.js'
 import { DEFAULT_SETTINGS } from './defaults.js'
 import { buildPaymentUrl, verifyResponse } from './services/eazypay.js'
 import { saveEventImage, deleteEventImage, MAX_UPLOAD } from './services/images.js'
+import { codeMessage } from '../../src/lib/bookingStatus.js'
 
 const httpError = (status, message, extra) => Object.assign(new Error(message), { status, ...extra })
 const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
@@ -50,7 +51,7 @@ const str = (max) => z.string().max(max).default('')
 const BookingInput = z.object({
   eventId: z.coerce.number().int(),
   category: z.enum(['member', 'nonMember', 'student']),
-  contact: z.object({ firm: str(200), address: str(400), city: str(100), pincode: str(10), state: str(60), phone: str(20), email: str(200), gstin: str(20) }),
+  contact: z.object({ firm: str(200), address: str(400), city: str(100), pincode: str(10), state: str(60), phone: str(20), email: str(200), gstin: str(20), pan: str(10) }),
   participants: z
     .array(z.object({ name: str(120), email: str(200), mobile: str(20), gender: str(10), idNumber: str(20) }))
     .min(1)
@@ -92,6 +93,7 @@ function bookingErrors(category, people, contact) {
   err['c.phone'] = rules.mobile(contact.phone)
   err['c.email'] = rules.email(contact.email)
   if (gstAppliesTo(category)) err['c.gstin'] = rules.gstin(contact.gstin)
+  err['c.pan'] = rules.pan(contact.pan || '')
   for (const k of Object.keys(err)) if (!err[k]) delete err[k]
   return err
 }
@@ -229,6 +231,7 @@ export function createApp({ cfg, db, mailer, log = console }) {
           ...contact,
           email: contact.email.trim().toLowerCase(),
           gstin: gstAppliesTo(category) ? contact.gstin.trim().toUpperCase() : '',
+          pan: (contact.pan || '').trim().toUpperCase(),
         },
         participants: participants.map((p) => ({
           name: p.name.trim(),
@@ -311,6 +314,10 @@ export function createApp({ cfg, db, mailer, log = console }) {
         ref: ok ? 'TEST' + Date.now().toString().slice(-9) : '',
         at: new Date().toISOString(),
         note: ok ? undefined : 'Payment was not completed.',
+        code: ok ? 'E000' : 'E0803',
+        message: ok ? undefined : 'Cancelled by the person paying (test mode)',
+        mode: 'Test',
+        amount: b.price.total,
       })
       res.json(done)
     }),
@@ -326,17 +333,32 @@ export function createApp({ cfg, db, mailer, log = console }) {
         return res.redirect(303, `${cfg.frontendUrl}/#/find`)
       }
       if (!v.ok) {
-        // Never change a booking on a reply that fails the hash check.
+        // Never mark a booking paid or failed on a reply that fails the hash check, but keep a record of it
+        // for the admin, as the old portal did ("invalid hash").
         log.error('eazypay reply rejected for', b.id, v.reason)
+        if (b.status === 'pending')
+          await db.bookings.updateIfStatus(b.id, 'pending', {
+            payment: {
+              method: 'ICICI Eazypay',
+              code: v.code || '',
+              message: 'Bank reply failed the security check. Check with ICICI before confirming or refunding.',
+              at: new Date().toISOString(),
+            },
+          })
         return res.redirect(303, bookingLink(b))
       }
       const amountOk = Math.abs(v.amount - b.price.total) < 0.01
+      // Same details the old portal kept for every reply: mode, bank reference, response code, message, amount.
       await settle(b.id, v.paid && amountOk, {
-        method: `ICICI Eazypay${v.mode ? ` (${v.mode})` : ''}`,
+        method: 'ICICI Eazypay',
+        mode: v.mode,
         ref: v.bankRef,
         code: v.code,
+        message: !v.paid ? codeMessage(v.code) : amountOk ? undefined : 'Amount from the bank does not match the booking.',
+        amount: v.amount,
+        txnDate: v.txnDate,
         at: new Date().toISOString(),
-        note: !v.paid ? `Bank response ${v.code}. Payment was not completed.` : amountOk ? undefined : 'Amount from the bank does not match the booking. Please contact the branch.',
+        note: !v.paid ? 'Payment was not completed.' : amountOk ? undefined : 'Amount from the bank does not match the booking. Please contact the branch.',
       })
       res.redirect(303, bookingLink(b))
     }),

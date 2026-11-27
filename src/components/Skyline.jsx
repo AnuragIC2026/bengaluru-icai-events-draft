@@ -12,7 +12,7 @@ export default function Skyline({ variant = 'retro', className = '', height }) {
       <svg className={`skyline skyline-night ${className}`} viewBox={SKYLINE_VIEWBOX} preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false" style={style}>
         <defs>
           <filter id="sk-flat-night" x="0" y="0" width="100%" height="100%">
-            <feFlood floodColor="#0D2560" />
+            <feFlood floodColor="#232B6B" />
             <feComposite in2="SourceAlpha" operator="in" />
           </filter>
         </defs>

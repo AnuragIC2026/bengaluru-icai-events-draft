@@ -203,14 +203,14 @@ export async function completePayment(id, success) {
     const e = decorate(raw, bookings)
     if (e.seatsLeft < b.participants.length) {
       b.status = 'failed'
-      b.payment = { method: 'ICICI Eazypay (demo)', ref: '', at: new Date().toISOString(), note: 'Seats ran out before payment finished.' }
+      b.payment = { method: 'ICICI Eazypay (demo)', mode: 'Test', ref: 'DEMO' + Date.now().toString().slice(-9), code: 'E000', amount: b.price.total, at: new Date().toISOString(), message: 'Seats ran out before payment finished', note: 'Seats ran out before payment finished.' }
     } else {
       b.status = 'paid'
-      b.payment = { method: 'ICICI Eazypay (demo)', ref: 'DEMO' + Date.now().toString().slice(-9), at: new Date().toISOString() }
+      b.payment = { method: 'ICICI Eazypay (demo)', mode: 'Test', ref: 'DEMO' + Date.now().toString().slice(-9), code: 'E000', amount: b.price.total, at: new Date().toISOString() }
     }
   } else {
     b.status = 'failed'
-    b.payment = { method: 'ICICI Eazypay (demo)', ref: '', at: new Date().toISOString(), note: 'Payment was not completed.' }
+    b.payment = { method: 'ICICI Eazypay (demo)', mode: 'Test', ref: '', code: 'E0803', amount: b.price.total, at: new Date().toISOString(), message: 'Cancelled by the person paying (test)', note: 'Payment was not completed.' }
   }
   bookings[i] = b
   write(KEYS.bookings, bookings)

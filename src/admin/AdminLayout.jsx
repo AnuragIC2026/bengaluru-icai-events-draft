@@ -23,7 +23,7 @@ export function RequireRole({ role, children }) {
   if (user.role !== role)
     return (
       <div className="denied">
-        <ShieldAlert size={40} color="#9A4E07" />
+        <ShieldAlert size={40} color="#A65A0A" />
         <h1 style={{ fontSize: 24, margin: '12px 0 6px' }}>This page is for admins</h1>
         <p className="muted">Your login can see registrations and payments only.</p>
         <Link className="btn btn-primary" to="/admin/registrations" style={{ marginTop: 18 }}>

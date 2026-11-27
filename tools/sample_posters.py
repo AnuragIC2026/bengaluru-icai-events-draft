@@ -22,7 +22,7 @@ FONTS = os.path.join(ROOT, 'src', 'assets', 'fonts')
 OUT = os.path.join(ROOT, 'src', 'data', 'sample-images')
 SHAPES = [(1080, 1080), (1080, 1350), (1600, 900)]
 PALETTES = {
-    'member': [('#0C2D6B', '#FFF4E2', '#F2A541'), ('#2F6F73', '#FFF4E2', '#F4B860'), ('#B5482F', '#FFF4E2', '#F6C98B')],
+    'member': [('#2C3A92', '#FFF4E2', '#F2A541'), ('#2F6F73', '#FFF4E2', '#F4B860'), ('#B3630D', '#FFF4E2', '#F6C98B')],
     'student': [('#5B2E91', '#FFF4E2', '#F4B860'), ('#7A4BB0', '#FFFFFF', '#F6C98B')],
 }
 
@@ -56,9 +56,9 @@ FONT_CSS = None
 def poster_html(e, w, h, pal):
     global FONT_CSS
     if FONT_CSS is None:
-        FONT_CSS = (f"@font-face{{font-family:B;font-weight:800;src:url({font_url('bricolage-grotesque-latin-800-normal.woff2')})}}"
-                    f"@font-face{{font-family:H;font-weight:500;src:url({font_url('hanken-grotesk-latin-500-normal.woff2')})}}"
-                    f"@font-face{{font-family:H;font-weight:700;src:url({font_url('hanken-grotesk-latin-700-normal.woff2')})}}")
+        FONT_CSS = (f"@font-face{{font-family:B;font-weight:800;src:url({font_url('manrope-latin-800-normal.woff2')})}}"
+                    f"@font-face{{font-family:H;font-weight:500;src:url({font_url('manrope-latin-500-normal.woff2')})}}"
+                    f"@font-face{{font-family:H;font-weight:700;src:url({font_url('manrope-latin-700-normal.woff2')})}}")
     bg, ink, accent = pal
     title = e['title'].replace(' | SICASA', '')
     sicasa = 'SICASA' in e['title']

@@ -11,7 +11,7 @@ import { seatsIndicator, closingIndicator, stateIndicator, Ind } from '../lib/av
 import { PolicyModal } from '../components/Layout.jsx'
 
 const emptyPerson = () => ({ memberId: '', studentId: '', name: '', email: '', mobile: '', gender: '' })
-const emptyContact = { firm: '', address: '', city: '', pincode: '', state: 'Karnataka', phone: '', email: '', gstin: '' }
+const emptyContact = { firm: '', address: '', city: '', pincode: '', state: 'Karnataka', phone: '', email: '', gstin: '', pan: '' }
 
 function personErrors(category, p) {
   const e = {}
@@ -49,6 +49,7 @@ function validate(category, people, contact, agree) {
   err['c.phone'] = rules.mobile(contact.phone)
   err['c.email'] = rules.email(contact.email)
   if (gstAppliesTo(category)) err['c.gstin'] = rules.gstin(contact.gstin)
+  err['c.pan'] = rules.pan(contact.pan)
   err['agree'] = agree ? '' : 'Please accept the policies to continue'
   Object.keys(err).forEach((k) => !err[k] && delete err[k])
   return err
@@ -199,7 +200,7 @@ export default function EventPage() {
         eventId: event.id,
         category,
         participants: clean,
-        contact: { ...contact, gstin: gstAppliesTo(category) ? contact.gstin.trim().toUpperCase() : '', email: contact.email.trim().toLowerCase() },
+        contact: { ...contact, gstin: gstAppliesTo(category) ? contact.gstin.trim().toUpperCase() : '', pan: contact.pan.trim().toUpperCase(), email: contact.email.trim().toLowerCase() },
       })
       const k = encodeURIComponent(booking.accessKey || '')
       if (payment?.mode === 'eazypay' && payment.url) {
@@ -562,10 +563,11 @@ export default function EventPage() {
                     ))}
                   </FloatSelect>
                   <FloatInput id="c-phone" label="Contact number" type="tel" inputMode="numeric" value={contact.phone} onChange={(v) => setC('phone', v)} autoComplete="tel-national" error={err('c.phone')} />
-                  <FloatInput id="c-email" label="Email for the receipt" type="email" value={contact.email} onChange={(v) => setC('email', v)} autoComplete="email" error={err('c.email')} className={gstAppliesTo(category) ? '' : 'span-2'} />
+                  <FloatInput id="c-email" label="Email for the receipt" type="email" value={contact.email} onChange={(v) => setC('email', v)} autoComplete="email" error={err('c.email')} />
                   {gstAppliesTo(category) && (
                     <FloatInput id="c-gstin" label="GSTIN" optional help="Add it to claim GST input credit" maxLength={15} value={contact.gstin} onChange={(v) => setC('gstin', v.toUpperCase())} style={{ textTransform: 'uppercase' }} error={err('c.gstin')} />
                   )}
+                  <FloatInput id="c-pan" label="PAN" optional maxLength={10} value={contact.pan} onChange={(v) => setC('pan', v.toUpperCase().replace(/[^A-Z0-9]/g, ''))} style={{ textTransform: 'uppercase' }} autoComplete="off" error={err('c.pan')} />
                 </div>
                 {people[0].email && !contact.email && (
                   <button type="button" className="link-btn" style={{ marginTop: 12, fontSize: 14.5 }} onClick={() => setContact((c) => ({ ...c, email: people[0].email, phone: c.phone || people[0].mobile }))}>
