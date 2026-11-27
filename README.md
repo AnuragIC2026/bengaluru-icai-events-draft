@@ -30,13 +30,13 @@ Built by IC Solutions.
   - red for few seats left, closing today or tomorrow, or fully booked
   - amber for filling fast, or closing in 2 or 3 days
   - green for seats available, group discount or free
-  - grey for closed
+  - grey for registration closed or event over
 - A retro poster style picture of Bengaluru heads the event list and event pages. In the middle is a real photo of Vidhana Soudha, recoloured into an orange evening. Around it are drawn Bangalore Palace, the Lalbagh Glass House, a gopuram, UB City and the CBD towers, a Namma Metro train, tiled roof houses and rain trees. The drawn parts and the photo's size and place are set in `tools/skyline.py`, so edit that file and rerun it to change the picture.
 
 **Admin** (`#/admin`, not linked from the public pages. On the live setup it moves to its own subdomain.)
 - **Two roles.** Admin sees everything. Accounts sees only the dashboard and registrations.
-- **Dashboard:** open events, paid bookings, participants and amount collected.
-- **Events:** add, edit, copy, pause, close or delete. Delete only works when there are no bookings.
+- **Dashboard:** open events, paid bookings, participants and amount collected, with a link to failed or not completed bookings.
+- **Events:** add, edit, copy, pause, close or delete. Delete only works when there are no bookings. Upcoming and Past tabs follow the same rule as the public list.
 - **Event image:** upload by clicking or by dropping a file, with a preview, Replace and Remove. JPG, PNG or WebP up to 8 MB, scaled down to 1,400 pixels on the longest side. Copying an event copies its image. The events table shows a small thumbnail.
 - **Event settings:**
   - fees per category, entered before GST
@@ -112,7 +112,8 @@ src/
   lib/pricing.js        fee, discount and GST maths (no browser code, reusable on the server)
   lib/data.js           picks the data source: api.js (backend) or store.js (browser test version)
   lib/eventRules.js     event checks, shared with the server
-  lib/eventState.js     open, closed, full rules, shared with the server
+  lib/eventState.js     open, closed, full and event over rules, shared with the server
+  lib/bookingStatus.js  paid, failed, not completed, and the Eazypay response code list
   lib/validate.js       field rules and states list
   lib/excel.js          Excel exports
   pages/                public pages
@@ -137,7 +138,7 @@ The Vidhana Soudha in the header is a photo by Aaron Antony Paul on Unsplash (Un
 
 ## Still to do for the live version
 
-- **ICICI Eazypay keys and a test transaction** with ICICI. The code is ready.
+- **ICICI Eazypay keys and a test transaction** with ICICI. The code is ready. Check the response code list in `src/lib/bookingStatus.js` against the guide ICICI sends with the keys.
 - **GST invoices** with the branch's GSTIN and invoice numbering. The receipts are not tax invoices yet.
 - **Admin user management** from the admin panel. Logins are set in the server's `.env` for now.
 - **Seat holds:** seats held for a few minutes while payment is in progress.
