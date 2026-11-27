@@ -17,6 +17,8 @@ import { DEFAULT_SETTINGS } from './defaults.js'
 import { buildPaymentUrl, verifyResponse } from './services/eazypay.js'
 import { saveEventImage, deleteEventImage, MAX_UPLOAD } from './services/images.js'
 import { codeMessage } from '../../src/lib/bookingStatus.js'
+import { BRANCH, priceLine } from '../../src/lib/share.js'
+import { fmtDateRange, fmtTimeRange } from '../../src/lib/format.js'
 
 const httpError = (status, message, extra) => Object.assign(new Error(message), { status, ...extra })
 const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
@@ -199,6 +201,38 @@ export function createApp({ cfg, db, mailer, log = console }) {
       const e = await db.events.get(req.params.id)
       if (!e) throw httpError(404, 'Event not found.')
       res.json(publicEvent(e))
+    }),
+  )
+
+  // Share page for WhatsApp and other apps. Link previews read these tags (the site itself is a single page app,
+  // so its own pages cannot give each event a preview), then the visitor is sent on to the event page.
+  app.get(
+    '/share/event/:id',
+    wrap(async (req, res) => {
+      const e = await db.events.get(req.params.id)
+      const target = e ? `${cfg.frontendUrl}/#/event/${encodeURIComponent(e.id)}` : `${cfg.frontendUrl}/`
+      if (!e) return res.redirect(302, target)
+      const pe = publicEvent(e)
+      const s = await getSettings()
+      const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
+      const when = `${fmtDateRange(pe.startDate, pe.endDate)}, ${fmtTimeRange(pe.startTime, pe.endTime)}`
+      const desc = [BRANCH, when, pe.venue, priceLine(pe, s.gstRate)].filter(Boolean).join('. ')
+      const image = pe.imageUrl || `${cfg.frontendUrl}/og-image.jpg`
+      res.set('Cache-Control', 'public, max-age=300')
+      res.type('html').send(`<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>${esc(pe.title)} | ${esc(BRANCH)}</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="${esc(desc)}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="${esc(BRANCH)} Event Registration">
+<meta property="og:title" content="${esc(pe.title)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:image" content="${esc(image)}">
+<meta property="og:url" content="${esc(`${cfg.publicApiUrl}/share/event/${encodeURIComponent(pe.id)}`)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta http-equiv="refresh" content="0; url=${esc(target)}">
+</head><body><p><a href="${esc(target)}">Open ${esc(pe.title)}</a></p></body></html>`)
     }),
   )
 

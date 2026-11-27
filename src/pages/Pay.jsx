@@ -17,7 +17,7 @@ export default function Pay() {
   const [msg, alertMsg] = useState('')
 
   useEffect(() => {
-    document.title = 'Payment | Bengaluru ICAI'
+    document.title = 'Payment | ICAI Bengaluru Branch (SIRC)'
     getBooking(id, key).then((x) => {
       if (x && x.status !== 'pending') nav(`/booking/${x.id}?k=${encodeURIComponent(key)}`, { replace: true })
       setB(x)

@@ -10,7 +10,7 @@ export default function FindBooking() {
   const [who, setWho] = useState('')
   const [msg, setMsg] = useState('')
   useEffect(() => {
-    document.title = 'Find a booking | Bengaluru ICAI'
+    document.title = 'Find a booking | ICAI Bengaluru Branch (SIRC)'
   }, [])
   const submit = async (e) => {
     e.preventDefault()

@@ -73,6 +73,7 @@ Set `FRONTEND_URL` and `CORS_ORIGINS` in the server's `.env` to the front end's 
 | GET | /api/health | anyone |
 | GET | /api/settings | anyone |
 | GET | /api/events, /api/events/:id | anyone |
+| GET | /share/event/:id | anyone (WhatsApp link preview page, then sends the visitor to the event) |
 | POST | /api/bookings | anyone |
 | GET | /api/bookings/:id?k=key | person with the link |
 | POST | /api/bookings/find | anyone (number plus email or mobile) |

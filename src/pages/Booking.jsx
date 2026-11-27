@@ -5,13 +5,15 @@ import { getBooking, getEvent, getSettings, IS_DEMO } from '../lib/data.js'
 import { CATEGORY_LABELS } from '../lib/pricing.js'
 import { fmtDateRange, fmtTimeRange, rupees, fmtDateTime } from '../lib/format.js'
 import { isStudentEvent } from '../components/ui.jsx'
+import ShareWhatsApp from '../components/ShareWhatsApp.jsx'
+import { canShare } from '../lib/share.js'
 
 function icsFor(e, b) {
   const stamp = (d, t) => `${d.replace(/-/g, '')}T${t.replace(':', '')}00`
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Bengaluru ICAI//Events//EN',
+    'PRODID:-//ICAI Bengaluru Branch (SIRC)//Events//EN',
     'BEGIN:VEVENT',
     `UID:${b.id}@bangaloreicai.org`,
     `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}Z`,
@@ -132,13 +134,19 @@ export default function Booking() {
   const [sp] = useSearchParams()
   const key = sp.get('k') || ''
   const [emailOn, setEmailOn] = useState(false)
+  const [gstRate, setGstRate] = useState(null)
   useEffect(() => {
-    if (!IS_DEMO) getSettings().then((s) => setEmailOn(!!s.emailEnabled)).catch(() => {})
+    getSettings()
+      .then((s) => {
+        setGstRate(s.gstRate)
+        if (!IS_DEMO) setEmailOn(!!s.emailEnabled)
+      })
+      .catch(() => {})
   }, [])
   const [b, setB] = useState(undefined)
   const [e, setE] = useState(null)
   useEffect(() => {
-    document.title = 'Your booking | Bengaluru ICAI'
+    document.title = 'Your booking | ICAI Bengaluru Branch (SIRC)'
     getBooking(id, key).then((x) => {
       setB(x)
       if (x) getEvent(x.eventId).then(setE)
@@ -205,6 +213,7 @@ export default function Booking() {
                 <CalendarPlus size={18} /> Add to calendar
               </button>
             )}
+            {e && gstRate != null && canShare(e) && <ShareWhatsApp event={e} gstRate={gstRate} label="Tell colleagues on WhatsApp" />}
           </>
         )}
         {b.status === 'pending' && (

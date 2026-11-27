@@ -3,17 +3,13 @@ import { Link } from 'react-router-dom'
 import { Search, Clock, MapPin, Percent, ChevronDown, ChevronUp } from 'lucide-react'
 import { listEvents, getSettings } from '../lib/data.js'
 import { eventState, eventEnded } from '../lib/eventState.js'
-import { enabledCategories, priceWithGst, describeDiscount } from '../lib/pricing.js'
+import { enabledCategories, describeDiscount } from '../lib/pricing.js'
+import { fromPrice, canShare } from '../lib/share.js'
+import ShareWhatsApp from '../components/ShareWhatsApp.jsx'
 import { dayNum, monShort, dowShort, monthKey, fmtTimeRange, fmtDateShort, rupees } from '../lib/format.js'
 import { AudienceChips, isStudentEvent } from '../components/ui.jsx'
 import Skyline from '../components/Skyline.jsx'
 import { seatsIndicator, closingIndicator, stateIndicator, Ind } from '../lib/availability.jsx'
-
-function fromPrice(e, gstRate) {
-  const prices = enabledCategories(e).map((c) => priceWithGst(Number(e.categories[c].fee), c, gstRate))
-  if (!prices.length) return null
-  return Math.min(...prices)
-}
 
 function topic(e) {
   const first = (e.description || '').split('\n')[0]
@@ -92,9 +88,12 @@ export function EventTicket({ e, gstRate }) {
             </>
           )}
         </div>
-        <Link to={`/event/${e.id}`} className={`btn btn-sm ${open ? 'btn-primary' : 'btn-ghost'}`} aria-label={`${open ? 'Register for' : 'View'} ${e.title}`}>
-          {open ? 'Register' : 'View details'}
-        </Link>
+        <div className="t-actions">
+          {canShare(e) && <ShareWhatsApp event={e} gstRate={gstRate} variant="icon" />}
+          <Link to={`/event/${e.id}`} className={`btn btn-sm ${open ? 'btn-primary' : 'btn-ghost'}`} aria-label={`${open ? 'Register for' : 'View'} ${e.title}`}>
+            {open ? 'Register' : 'View details'}
+          </Link>
+        </div>
       </div>
     </article>
   )
@@ -120,7 +119,7 @@ export default function EventList() {
   }, [])
 
   useEffect(() => {
-    document.title = 'Event registration | Bengaluru ICAI'
+    document.title = 'Event Registration | ICAI Bengaluru Branch (SIRC)'
     listEvents().then(setEvents)
     getSettings().then((s) => setGstRate(s.gstRate))
   }, [])

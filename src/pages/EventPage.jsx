@@ -9,6 +9,8 @@ import { FloatInput, FloatSelect, FloatChoice, AudienceChips, RichText, isStuden
 import Skyline from '../components/Skyline.jsx'
 import { seatsIndicator, closingIndicator, stateIndicator, Ind } from '../lib/availability.jsx'
 import { PolicyModal } from '../components/Layout.jsx'
+import ShareWhatsApp from '../components/ShareWhatsApp.jsx'
+import { canShare } from '../lib/share.js'
 
 const emptyPerson = () => ({ memberId: '', studentId: '', name: '', email: '', mobile: '', gender: '' })
 const emptyContact = { firm: '', address: '', city: '', pincode: '', state: 'Karnataka', phone: '', email: '', gstin: '', pan: '' }
@@ -119,7 +121,7 @@ export default function EventPage() {
     getEvent(id).then((e) => {
       setEvent(e)
       if (e) {
-        document.title = `${e.title} | Bengaluru ICAI`
+        document.title = `${e.title} | ICAI Bengaluru Branch (SIRC)`
         setCategory(enabledCategories(e)[0] || '')
       }
     })
@@ -237,6 +239,11 @@ export default function EventPage() {
             {closing && <Ind {...closing} />}
           </div>
           <h1>{event.title}</h1>
+          {canShare(event) && (
+            <div className="ev-share">
+              <ShareWhatsApp event={event} gstRate={settings.gstRate} />
+            </div>
+          )}
         </div>
         <Skyline variant="retro" />
       </section>

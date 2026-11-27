@@ -246,6 +246,15 @@ test('Eazypay: payment link, good reply, forged reply, wrong amount', async () =
   await request(liveApp).post(`/api/payments/test/${r2.body.booking.id}`).send({ k: r2.body.booking.accessKey, success: true }).expect(404)
 })
 
+test('share page gives WhatsApp the event preview, then sends people to the event', async () => {
+  const r = await request(app).get(`/share/event/${eventId}`).expect(200)
+  assert.match(r.headers['content-type'], /html/)
+  assert.match(r.text, /<meta property="og:title" content="[^"]+">/)
+  assert.match(r.text, /ICAI Bengaluru Branch \(SIRC\)/)
+  assert.match(r.text, new RegExp(`http-equiv="refresh" content="0; url=${cfg.frontendUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/#/event/${eventId}"`))
+  await request(app).get('/share/event/999999').expect(302)
+})
+
 test('unknown routes and bad JSON', async () => {
   await request(app).get('/api/nothing').expect(404)
   await request(app).post('/api/bookings').set('Content-Type', 'application/json').send('{bad').expect(400)

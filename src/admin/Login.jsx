@@ -12,7 +12,7 @@ export default function Login() {
   const [pw, setPw] = useState('')
   const [err, setErr] = useState('')
   useEffect(() => {
-    document.title = 'Admin login | Bengaluru ICAI events'
+    document.title = 'Admin login | ICAI Bengaluru Branch (SIRC)'
     if (currentUser()) nav('/admin', { replace: true })
   }, [nav])
   const [busy, setBusy] = useState(false)

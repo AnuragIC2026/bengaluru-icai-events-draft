@@ -35,7 +35,7 @@ export function loadConfig(env = process.env) {
     },
     email: {
       enabled: bool(env.EMAIL_ENABLED, false),
-      from: env.EMAIL_FROM || 'Bengaluru ICAI Events <no-reply@example.com>',
+      from: env.EMAIL_FROM || 'ICAI Bengaluru Branch (SIRC) Events <no-reply@example.com>',
       replyTo: env.EMAIL_REPLY_TO || '',
       smtp: {
         host: env.SMTP_HOST || '',

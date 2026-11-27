@@ -20,7 +20,8 @@ Built by IC Solutions.
   - billing details, with an optional GSTIN (hidden for students, since they pay no GST) and an optional PAN, both format checked
   - a live summary showing fee, group discount, GST and total
 - Simulated ICICI Eazypay step with success and failure buttons.
-- Booking pass with print and "Add to calendar".
+- Booking pass with print, "Add to calendar" and "Tell colleagues on WhatsApp".
+- **Share on WhatsApp:** a button on the event page and a small share button on each event card in the list, for events open for booking or opening soon. It opens WhatsApp (the app on phones, WhatsApp Web on computers) with a ready message: event name in bold, the branch name, date and time, venue, fee and the link to register. With the backend, the link goes through the server's `/share/event/<id>` page so WhatsApp shows that event's own title, details and image in the preview. On the browser test version every link shows the general portal preview.
 - "Find a booking" by booking number and email or mobile.
 - Closed and fully booked events show a "notify me" form (the old portal's missed opportunity page).
 - Free events skip payment.
@@ -118,6 +119,7 @@ src/
   lib/validate.js       field rules and states list
   lib/excel.js          Excel exports
   lib/pdf.js            PDF exports (loaded only when used; fonts in assets/fonts/pdf)
+  lib/share.js          WhatsApp share message and link, shared with the server's share page
   pages/                public pages
   admin/                admin pages
 ```

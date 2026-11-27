@@ -721,3 +721,13 @@ svg.lucide { flex: none; }
   .site-head { position: static; }
   .summary { position: static; }
 }
+
+/* Share on WhatsApp */
+.btn-wa { background: #E6F6EC; color: #11733B; border-color: #BFE6CD; text-decoration: none; }
+.btn-wa:hover { background: #D3F0DE; color: #0C5E30; border-color: #9AD8B1; }
+.ev-share { margin-top: 14px; position: relative; z-index: 2; }
+.ev-share .btn-wa { padding: 8px 14px; font-size: 14.5px; }
+.t-actions { display: flex; align-items: center; gap: 8px; }
+.wa-icon { display: inline-grid; place-items: center; width: 36px; height: 36px; flex: none; border-radius: 10px; background: #E6F6EC; color: #11733B; border: 1px solid #BFE6CD; }
+.wa-icon:hover { background: #D3F0DE; color: #0C5E30; }
+@media print { .btn-wa, .wa-icon { display: none !important; } }
