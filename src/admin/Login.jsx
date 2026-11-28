@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { LogIn } from 'lucide-react'
-import logo from '../assets/icai-logo.png'
+import logo from '../assets/icai-emblem.png'
 import { login, currentUser, DEMO_USERS } from '../lib/data.js'
 import { Field, TextInput } from '../components/ui.jsx'
 
@@ -41,10 +41,16 @@ export default function Login() {
   return (
     <div className="login-wrap">
       <form className="login" onSubmit={submit} noValidate>
-        <img className="logo" src={logo} alt="The Institute of Chartered Accountants of India" />
+        <div className="login-brand">
+          <img className="logo" src={logo} alt="ICAI emblem" />
+          <div>
+            <b>ICAI Bengaluru Branch (SIRC)</b>
+            <span>The Institute of Chartered Accountants of India</span>
+          </div>
+        </div>
         <h1>Event admin</h1>
         <p className="muted" style={{ marginBottom: 20 }}>
-          ICAI Bengaluru Branch (SIRC)
+          Log in to manage events and registrations.
         </p>
         <div style={{ display: 'grid', gap: 14 }}>
           <Field label="Email" id="l-email">

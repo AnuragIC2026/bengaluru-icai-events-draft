@@ -77,11 +77,13 @@ svg.lucide { flex: none; }
 .brand-logo { display: block; flex: none; border-radius: 6px; }
 .brand-text { text-decoration: none; color: inherit; min-width: 0; }
 .brand-text:hover strong { color: var(--saffron-ink); }
-.brand img { height: 60px; width: auto; }
-.brand .divider { width: 1px; height: 44px; background: linear-gradient(var(--line), var(--saffron), var(--line)); }
+.brand img { height: 64px; width: auto; }
+.brand .divider { width: 1px; height: 58px; background: linear-gradient(var(--line), var(--saffron), var(--line)); }
 /* the branch name leads, in the logo's orange, like the branch logo itself */
 .brand strong { font-family: var(--head); font-size: 22px; font-weight: 800; display: block; color: var(--saffron); line-height: 1.1; letter-spacing: -0.015em; }
-.brand small { display: block; color: var(--blue); font-weight: 700; font-size: 14.5px; line-height: 1.35; margin-top: 3px; }
+/* the full ICAI name, written out large like in the branch logo */
+.brand .inst { display: block; font-family: var(--head); font-size: 18.5px; font-weight: 800; color: var(--blue); line-height: 1.2; letter-spacing: -0.015em; margin-top: 3px; text-wrap: balance; }
+.brand small { display: block; color: var(--muted); font-weight: 600; font-size: 13.5px; line-height: 1.35; margin-top: 2px; }
 .head-links { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .head-link { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--muted); font-weight: 600; font-size: 15px; padding: 10px 12px; border-radius: 10px; }
 .head-link:hover { color: var(--blue); background: var(--paper); }
@@ -486,12 +488,13 @@ svg.lucide { flex: none; }
 }
 @media (max-width: 760px) {
   .wrap { padding: 0 16px; }
-  .site-head .wrap { height: 66px; gap: 10px; }
+  .site-head .wrap { height: auto; min-height: 66px; padding-top: 8px; padding-bottom: 8px; gap: 10px; }
   .brand { gap: 12px; }
-  .brand img { height: 44px; }
-  .brand .divider { height: 34px; }
+  .brand img { height: 46px; }
+  .brand .divider { height: 44px; }
   .brand small { display: none; }
   .brand strong { font-size: 16.5px; }
+  .brand .inst { font-size: 13px; margin-top: 2px; }
   .head-links span { display: none; }
   .head-link, .head-btn { padding: 10px; }
   .hero-text { padding-top: 32px; }
@@ -731,3 +734,4 @@ svg.lucide { flex: none; }
 .wa-icon { display: inline-grid; place-items: center; width: 36px; height: 36px; flex: none; border-radius: 10px; background: #E6F6EC; color: #11733B; border: 1px solid #BFE6CD; }
 .wa-icon:hover { background: #D3F0DE; color: #0C5E30; }
 @media print { .btn-wa, .wa-icon { display: none !important; } }
+@media (max-width: 360px) { .brand { gap: 9px; } .brand img { height: 40px; } .brand .divider { height: 40px; } .brand strong { font-size: 15px; } .brand .inst { font-size: 12px; } }

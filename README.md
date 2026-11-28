@@ -64,7 +64,7 @@ Test logins are shown on the login page.
 ## Brand
 
 - Font: Manrope, the closest free match to the lettering in the branch logo on bengaluru.icai.org (the logo is an image, so its exact font is not known).
-- Colours from the logo: blue #2C3A92 for buttons, headings and links, orange #B3630D as the accent. The branch name leads the header in orange, with "Event Registration" under it in blue, like the logo. Small orange text uses #A65A0A so it stays readable.
+- Colours from the logo: blue #2C3A92 for buttons, headings and links, orange #B3630D as the accent. The header follows the branch logo: the ICAI emblem, then "ICAI Bengaluru Branch (SIRC)" in orange, the full name "The Institute of Chartered Accountants of India" written out large in blue, and "Event Registration" under it. The admin menu, login page and PDF exports carry the full name too. Small orange text uses #A65A0A so it stays readable.
 
 ## Naming
 

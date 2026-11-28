@@ -3,7 +3,7 @@
 import { CATEGORY_LABELS } from './pricing.js'
 import { fmtDateTime, rupees } from './format.js'
 import { displayStatus, STATUS_LABELS, isUnpaid, unpaidReason } from './bookingStatus.js'
-import logoUrl from '../assets/icai-logo.png'
+import logoUrl from '../assets/icai-emblem.png'
 import font400 from '../assets/fonts/pdf/manrope-400.ttf?url'
 import font700 from '../assets/fonts/pdf/manrope-700.ttf?url'
 import font800 from '../assets/fonts/pdf/manrope-800.ttf?url'
@@ -42,23 +42,28 @@ async function newDoc() {
 // Branch name on top, highlighted, then the report title and what the list covers.
 function header(doc, logo, title, lines) {
   const W = doc.internal.pageSize.getWidth()
-  doc.addImage('data:image/png;base64,' + logo, 'PNG', 14, 10, 32, 15)
+  doc.addImage('data:image/png;base64,' + logo, 'PNG', 25, 9.5, 19, 18.5)
   doc.setDrawColor(...ORANGE)
   doc.setLineWidth(0.4)
-  doc.line(50, 11, 50, 25)
+  doc.line(50, 10.5, 50, 28)
   doc.setFont('Manrope', 'heavy')
   doc.setFontSize(17)
   doc.setTextColor(...ORANGE)
-  doc.text(BRANCH, 54, 17)
-  doc.setFont('Manrope', 'bold')
-  doc.setFontSize(12)
+  doc.text(BRANCH, 54, 16)
+  // the full ICAI name, large, as in the branch logo
+  doc.setFont('Manrope', 'heavy')
+  doc.setFontSize(12.5)
   doc.setTextColor(...BLUE)
-  doc.text(title, 54, 23.5)
+  doc.text('The Institute of Chartered Accountants of India', 54, 22)
+  doc.setFont('Manrope', 'bold')
+  doc.setFontSize(10.5)
+  doc.setTextColor(...INK)
+  doc.text(title, 54, 27.5)
   doc.setFont('Manrope', 'normal')
   doc.setFontSize(8.5)
   doc.setTextColor(...MUTED)
   doc.text(`Downloaded ${fmtDateTime(new Date().toISOString())}`, W - 14, 17, { align: 'right' })
-  let y = 32
+  let y = 35
   doc.setFontSize(9.5)
   for (const l of lines.filter(Boolean)) {
     doc.setTextColor(...INK)

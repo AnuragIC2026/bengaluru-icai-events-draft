@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Navigate, Outlet, useLocation, useNavigate, useOutletContext, Link } from 'react-router-dom'
 import { LayoutDashboard, CalendarDays, Receipt, ReceiptText, BellRing, Settings as SettingsIcon, LogOut, Menu, ExternalLink, ShieldAlert } from 'lucide-react'
-import logo from '../assets/icai-logo.png'
+import logo from '../assets/icai-emblem.png'
 import { currentUser, logout } from '../lib/data.js'
 
 const NAV = [
@@ -62,6 +62,7 @@ export default function AdminLayout() {
           </span>
           <span>
             <b>ICAI Bengaluru Branch (SIRC)</b>
+            <span className="inst">The Institute of Chartered Accountants of India</span>
             <small>Event admin</small>
           </span>
         </div>

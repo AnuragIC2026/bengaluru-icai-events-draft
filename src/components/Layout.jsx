@@ -2,7 +2,7 @@ import { Link, Outlet } from 'react-router-dom'
 import { Search, FlaskConical } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { IS_DEMO, getSettings } from '../lib/data.js'
-import logo from '../assets/icai-logo.png'
+import logo from '../assets/icai-emblem.png'
 import { Modal } from './ui.jsx'
 import { POLICIES } from '../data/policies.js'
 import Skyline from './Skyline.jsx'
@@ -30,11 +30,12 @@ export function Header() {
       <div className="wrap">
         <div className="brand">
           <a href="https://bangaloreicai.org" className="brand-logo" title="Go to bangaloreicai.org">
-            <img src={logo} alt="The Institute of Chartered Accountants of India, go to the ICAI Bengaluru Branch (SIRC) website" width="128" height="60" />
+            <img src={logo} alt="ICAI emblem, go to the ICAI Bengaluru Branch (SIRC) website" width="64" height="62" />
           </a>
           <span className="divider" />
           <Link to="/" className="brand-text" aria-label="Event registration home">
             <strong>ICAI Bengaluru Branch (SIRC)</strong>
+            <span className="inst">The Institute of Chartered Accountants of India</span>
             <small>Event Registration</small>
           </Link>
         </div>
